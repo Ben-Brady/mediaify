@@ -10,7 +10,7 @@ from .configs import (
 
 
 class Default:
-    image: list[ImageConfig] = [
+    image: "list[ImageConfig]" = [
         ImageEncodeConfig(
             height=64,
             width=64,
@@ -38,7 +38,7 @@ class Default:
         OriginalFileConfig(),
     ]
 
-    animation: list[AnimationConfig] = [
+    animation: "list[AnimationConfig]" = [
         ThumbnailConfig(
             height=128,
             width=128,
@@ -60,7 +60,7 @@ class Default:
         OriginalFileConfig(),
     ]
 
-    video: list[VideoConfig] = [
+    video: "list[VideoConfig]" = [
         ThumbnailConfig(
             height=128,
             width=128,
@@ -77,7 +77,7 @@ class Default:
     ]
 
 class SpaceSaving:
-    image: list[ImageConfig] = [
+    image: "list[ImageConfig]" = [
         ImageEncodeConfig(
             height=64,
             width=64,
@@ -87,7 +87,7 @@ class SpaceSaving:
         OriginalFileConfig(),
     ]
 
-    animation: list[AnimationConfig] = [
+    animation: "list[AnimationConfig]" = [
         ThumbnailConfig(
             height=128,
             width=128,
@@ -97,7 +97,7 @@ class SpaceSaving:
         OriginalFileConfig(),
     ]
 
-    video: list[VideoConfig] = [
+    video: "list[VideoConfig]" = [
         ThumbnailConfig(
             height=128,
             width=128,

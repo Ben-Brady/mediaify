@@ -1,7 +1,8 @@
 from mediaify import encode_image, presets
-import testdata
+import test.data as data
 import io
 import json
+import pytest
 import unittest
 from typing import Union
 from pathlib import Path
@@ -31,7 +32,7 @@ def load_image(path: Union[str, Path]) -> tuple[ImageFile, ImageFile, ImageFile]
 
 class test_Resolutions_are_Correct(unittest.TestCase):
     def test_Small_Image_Doesnt_Change_Size(self):
-        variations = load_image(testdata.SMALL_IMAGE)
+        variations = load_image(data.SMALL_IMAGE)
         for x in variations:
             assert x.height == 5 and x.width == 5, f"Full: {x.height}x{x.width} is not 5x5"
 

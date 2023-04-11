@@ -1,10 +1,11 @@
 from dataclasses import dataclass
-from typing import TypeAlias
+from typing_extensions import TypeAlias
 
 
 @dataclass
 class OriginalFileConfig:
-    ...
+    pass
+
 
 @dataclass
 class ImageEncodeConfig:

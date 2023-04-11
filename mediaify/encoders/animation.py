@@ -35,7 +35,11 @@ def encode_single_animation(
     return encode_with_config(data, pillow, config)
 
 
-def encode_with_config(data: bytes, pillow: PILImage.Image, config: AnimationConfig) -> AnimationFile|ImageFile:
+def encode_with_config(
+        data: bytes,
+        pillow: PILImage.Image,
+        config: AnimationConfig
+        ) -> "AnimationFile|ImageFile":
     if isinstance(config, configs.ThumbnailConfig):
         return encode_thumbnail_with_config(pillow, config)
     elif isinstance(config, configs.AnimationEncodeConfig):
@@ -94,7 +98,10 @@ def encode_animation_with_animation_config(
     )
 
 
-def encode_thumbnail_with_config(pillow: PILImage.Image, config: configs.ThumbnailConfig) -> ImageFile:
+def encode_thumbnail_with_config(
+        pillow: PILImage.Image,
+        config: configs.ThumbnailConfig
+        ) -> ImageFile:
     # Seek to the correct offset
     # TODO: Rewrite to be neater
     total_duration = _get_animation_duration(pillow)

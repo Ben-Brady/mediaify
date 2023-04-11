@@ -8,7 +8,7 @@ import io
 
 def encode_image(
         data: bytes,
-        configs: list[ImageEncodeConfig|OriginalFileConfig],
+        configs: "list[ImageEncodeConfig|OriginalFileConfig]",
         ) -> "Sequence[ImageFile]":
     """Raises:
     - ValueError: Image is too big to process
@@ -33,7 +33,7 @@ def encode_single_image(
 def encode_with_config(
         data: bytes,
         pillow: PILImage.Image,
-        config: ImageEncodeConfig|OriginalFileConfig
+        config: "ImageEncodeConfig|OriginalFileConfig",
         ) -> "ImageFile":
     if isinstance(config, ImageEncodeConfig):
         return encode_pillow_with_image_config(pillow, config)
