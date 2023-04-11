@@ -10,10 +10,10 @@ with open('fractal.gif', 'rb') as f:
 
 files = mediaify.encode_media(data)
 >>> [
-    <mediaify.types.ImageFile object at 0x7f0d35d78820>,
-    <mediaify.types.ImageFile object at 0x7f0d35d78970>,
-    <mediaify.types.AnimationFile object at 0x7f0d35d788e0>,
-    <mediaify.types.AnimationFile object at 0x7f0d35d78850>
+    ImageFile(128x128, image/webp),
+    ImageFile(500x500, image/webp),
+    AnimationFile(500x500 600ms, image/webp),
+    AnimationFile(500x500 600ms, image/webp),
 ]
 ```
 
