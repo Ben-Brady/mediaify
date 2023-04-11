@@ -5,12 +5,12 @@ requires = ["flit_core >=3.8.0,<4"]
 [project]
 name = "mediaify"
 version = "1.1.0"
+description = "Encoding media into multiple qualities"
+license = "MIT"
+readme = "README.md"
 authors = [
     {name = "Ben Brady", email = "benbradybusiness@gmail.com"},
 ]
-description = "Encoding media into multiple qualities"
-readme = "README.md"
-requires-python = ">=3.7"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -30,12 +30,16 @@ classifiers = [
     "Topic :: Multimedia :: Video :: Conversion",
     "Typing :: Typed",
 ]
+requires-python = ">=3.7"
 dependencies = [
     "ffmpeg-python~=0.2.0",
     "pillow~=9.5.0",
     "python_magic~=0.4.27",
     "python-magic-bin; sys_platform == 'win32'",
 ]
+[project.urls]
+Source = "https://github.com/Ben-Brady/mediaify"
+
 
 [project.optional-dependencies]
 test = [
