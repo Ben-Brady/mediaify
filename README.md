@@ -21,9 +21,11 @@ files = mediaify.encode_media(data)
 
 - ffmpeg
     - Used to re-encode videos
+    - Debain/Ubuntu: `sudo apt-get install ffmpeg`
+    - [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
 - libmagic
     - Non-windows platform need to manually install libmagic
-    - Debian/Ubuntu `sudo apt-get install libmagic1`
-    - Homebrew `brew install libmagic`
-    - Homebrewmacports `port install file`
+    - Debian/Ubuntu: `sudo apt-get install libmagic1`
+    - Homebrew: `brew install libmagic`
+    - macports: `port install file`
 
