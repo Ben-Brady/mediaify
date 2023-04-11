@@ -2,11 +2,6 @@ from dataclasses import dataclass
 from typing import Union
 
 @dataclass
-class Dimensions:
-    x: int
-    y: int
-
-@dataclass(frozen=True)
 class ImageFile:
     data: bytes
     mimetype: str
@@ -14,7 +9,7 @@ class ImageFile:
     width: int
 
 
-@dataclass(frozen=True)
+@dataclass
 class AnimationFile:
     data: bytes
     mimetype: str
@@ -24,7 +19,7 @@ class AnimationFile:
     duration: float
 
 
-@dataclass(frozen=True)
+@dataclass
 class VideoFile:
     data: bytes
     mimetype: str

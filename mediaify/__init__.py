@@ -3,19 +3,19 @@ from .types import (
     AnimationFile,
     ImageFile,
     VideoFile,
-    Dimensions
 )
 from . import encoders
-from .utils import generate_encoder, encode_media
+from .encoders import encode_image, encode_animation
+from . import presets
+from .utils import encode_media
 
-ACCEPTED_FILE_EXTENTIONS = {
-    ".png",
-    ".jpg",
-    ".jpeg",
-    ".jpef",
-    ".webp",
-    ".apng",
-    ".gif",
-    ".webm",
-    ".mp4",
-}
+__all__ = [
+    "AnimationFile",
+    "ImageFile",
+    "VideoFile",
+    "encoders",
+    "encode_image",
+    "encode_animation",
+    "presets",
+    "encode_media",
+]

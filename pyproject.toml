@@ -20,5 +20,8 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
 ]
 dependencies = [
-    "ffmpeg~=1.2.0",
+    "ffmpeg-python~=0.2.0",
+    "pillow~=9.5.0",
+    "python_magic~=0.4.27",
+    "python-magic-bin; sys.platform == 'win32'",
 ]

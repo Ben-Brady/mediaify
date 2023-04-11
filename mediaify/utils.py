@@ -1,45 +1,44 @@
-from . import encoders, GenericFile
+from . import configs, encoders, presets, GenericFile
 from .encoders import probe
-
-import mimetypes
-mimetypes.add_type('image/webp', '.webp')
-mimetypes.add_type('image/apng', '.apng')
+from typing_extensions import Literal
 
 
-OriginalFile = GenericFile
-ThumbnailFile = GenericFile
+def encode_media(
+        data: bytes,
+        image_configs: "list[configs.ImageConfig]" = presets.Default.image,
+        animation_configs: """list[
+            configs.AnimationConfig|
+            configs.ThumbnailConfig|
+            configs.VideoConfig
+        ]""" = presets.Default.animation,
+    ) -> "list[GenericFile]":
+    type = guess_type(data)
+
+    if type == 'image':
+        return encoders.encode_image(data, image_configs)
+    elif type == 'animation':
+        return encoders.encode_animation(data, animation_configs)
+    elif type == 'video':
+        raise NotADirectoryError("Video files are not supported yet")
+    else:
+        raise ValueError("Filetype not supported")
 
 
-async def encode_media(filename: str, data: bytes, configs) -> "list[GenericFile]":
-    encoder = await generate_encoder(data, filename)
-    original = encoder.original()
-    thumbnail = encoder.thumbnail()
-
-    medias = []
-    medias.append(original)
-    medias.append(thumbnail)
-    preview = encoder.preview()
-    if preview:
-        medias.append(preview)
-
-    return original, thumbnail, medias
-
-
-async def generate_encoder(data: bytes, filename: str) -> BaseEncoder:
+def guess_type(data: bytes) -> "Literal['image', 'video', 'animation']|None":
     """Raises:
     - ValueError: Filetype not supported
     """
-    mime: str = mimetypes.guess_type(filename)[0]  # type: ignore
+    mime = probe.guess_mimetype(data)
     type, subtype = mime.split('/')
 
     if subtype in {"webp", "gif", "apng"}:
         if probe.is_animated_sequence(data):
-            return AnimationEncoder(data)
+            return "animation"
         else:
-            return ImageEncoder(data)
+            return "image"
     elif type == 'image':
-        return ImageEncoder(data)
+        return "image"
     elif type == 'video':
-        return VideoEncoder(data)
+        return "video"
     else:
-        raise ValueError(f'Filetype not supported: {mime}')
+        return None

@@ -1,0 +1,73 @@
+from .configs import (
+    AnimationConfig,
+    ImageConfig,
+    ThumbnailConfig,
+    VideoConfig,
+)
+
+class Default:
+    image = [
+        ImageConfig(
+            height=64,
+            width=64,
+            quality=80,
+            lossless=False,
+        ),
+        ImageConfig(
+            height=128,
+            width=128,
+            quality=80,
+            lossless=False,
+        ),
+        ImageConfig(
+            width=512,
+            height=512,
+            quality=90,
+            lossless=False,
+        ),
+        ImageConfig(
+            width=1024,
+            height=1024,
+            quality=90,
+            lossless=False,
+        ),
+        ImageConfig(
+            width=2048,
+            height=2048,
+            quality=90,
+            lossless=False,
+        ),
+        ImageConfig(
+            width=4096,
+            height=4096,
+            quality=95,
+            lossless=False,
+        ),
+    ]
+
+    animation = [
+        ThumbnailConfig(
+            height=128,
+            width=128,
+            quality=60,
+            lossless=False,
+        ),
+        ThumbnailConfig(
+            height=512,
+            width=512,
+            quality=70,
+            lossless=False,
+        ),
+        AnimationConfig(
+            width=256,
+            height=256,
+            quality=80,
+            lossless=False,
+        ),
+        AnimationConfig(
+            width=2048,
+            height=2048,
+            quality=100,
+            lossless=True,
+        ),
+    ]

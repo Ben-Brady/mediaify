@@ -1,98 +1,92 @@
-from . import BaseEncoder, AnimationFile, ImageFile
+from .. import AnimationFile, ImageFile, configs
+from . import image
 import io
 import warnings
-from typing_extensions import Self
 from PIL import Image as PILImage
 
 warnings.simplefilter('ignore', PILImage.DecompressionBombWarning)
 PILImage.MAX_IMAGE_PIXELS = (5000 * 5000) * 2
 # x2 max pixels, warning is raised on MAX_IMAGE_PIXELS
 
+def encode_animation(
+    data: bytes,
+    encodings: """list[
+        configs.AnimationConfig|
+        configs.ThumbnailConfig|
+        configs.VideoConfig
+    ]""",
+    ) -> "list[AnimationFile|ImageFile]":
+    """Raises:
+    - ValueError("Animation was too large")
+    - ValueError("Could not Load Animation")
+    - ValueError("Animation Only Has 1 Frame")
+    """
+    buf = io.BytesIO(data)
+    try:
+        pillow = PILImage.open(buf, formats=None)
+        # formats=None attempt to load all formats
+    except PILImage.DecompressionBombError:
+        raise ValueError("Animation was too large")
+    except Exception:
+        raise ValueError("Could not Load Animation")
+    if pillow.n_frames == 1:
+        raise ValueError("Animation Only Has 1 Frame")
 
-class AnimationEncoder(BaseEncoder):
-    _pillow: PILImage.Image
-    _data: bytes
-    _height: int
-    _width: int
-    _frame_count: int
-    _duration: float
+    media = []
+    for encoding in encodings:
+        if isinstance(encoding, configs.ThumbnailConfig):
+            media.append(encode_thumbnail_with_config(pillow, encoding))
+        elif isinstance(encoding, configs.AnimationConfig):
+            media.append(encode_animation_with_config(pillow, encoding))
+        elif isinstance(encoding, configs.VideoConfig):
+            raise NotImplementedError("Video Encoding Not Implemented")
 
-    def __init__(self, data: bytes):
-        """Raises:
-        - ValueError: Could not Load Animation
-        - ValueError: Animation was too large
-        - ValueError: Has Only 1 Frame
-        """
-        buf = io.BytesIO(data)
-
-        try:
-            pillow = PILImage.open(buf, formats=None)
-            # formats=None attempt to load all formats
-        except PILImage.DecompressionBombError:
-            raise ValueError("Animation was too large")
-        except Exception:
-            raise ValueError("Could not Load Animation")
-        if pillow.n_frames == 1:
-            raise ValueError("Animation Only Has 1 Frame")
-
-        frame_durations = get_frame_durations(pillow)
-        duration = sum(frame_durations) / 1000
-
-        self._data = data
-        self._pillow = pillow
-        self._height = pillow.height
-        self._width = pillow.width
-        self._frame_count = pillow.n_frames
-        self._duration = duration
-
-    def original(self) -> AnimationFile:
-        data = encode_pillow_animation(self._pillow)
-        return AnimationFile(
-            data=data,
-            mimetype='image/webp',
-            height=self._height,
-            width=self._width,
-            frame_count=self._frame_count,
-            duration=self._duration,
-        )
-
-    def preview(self) -> ImageFile:
-        buf = io.BytesIO()
-        self._pillow.seek(0)
-        self._pillow.save(
-            buf,
-            format='webp',
-            quality=100,
-            lossless=True
-        )
-        return ImageFile(
-            data=buf.read(),
-            mimetype="image/webp",
-            height=self._pillow.height,
-            width=self._pillow.width,
-        )
-
-    def thumbnail(self) -> ImageFile:
-        with ImageEncoder(self._data) as img:
-            return img.thumbnail()
+    return media
 
 
-def encode_pillow_animation(pillow: PILImage.Image) -> bytes:
+def encode_animation_with_config(pillow: PILImage.Image, config: configs.AnimationConfig) -> AnimationFile:
     buf = io.BytesIO()
-    frame_durations = get_frame_durations(pillow)
     pillow.save(
-        buf,
-        'WEBP',
+        fp=buf,
+        format='webp',
         save_all=True,  # Save as an animation
         transparency=0,
-        duration=frame_durations,
+        duration=get_frame_lengths(pillow),
         background=(0, 0, 0, 0),  # RGBA,
         disposal=2,
     )
-    return buf.getvalue()
+
+    return AnimationFile(
+        data=buf.getvalue(),
+        mimetype='image/webp',
+        height=pillow.height,
+        width=pillow.width,
+        frame_count=pillow.n_frames,
+        duration=get_animation_duration(pillow),
+    )
 
 
-def get_frame_durations(pillow: PILImage.Image) -> list[int]:
+def encode_thumbnail_with_config(pillow: PILImage.Image, config: configs.ThumbnailConfig) -> ImageFile:
+    # Seek to the correct offset
+    # TODO: Rewrite to be neater
+    total_duration = get_animation_duration(pillow)
+    cur_frame_time = 0
+    for x in range(pillow.n_frames):
+        pillow.seek(x)
+        cur_frame_time += pillow.info['duration']
+        percentage_in = total_duration / cur_frame_time
+        if percentage_in >= config.offset:
+            break
+
+    return image.encode_with_config(pillow, config)
+
+
+def get_animation_duration(pillow: PILImage.Image) -> int:
+    "Get animation duration in milliseconds"
+    return sum(get_frame_lengths(pillow))
+
+
+def get_frame_lengths(pillow: PILImage.Image) -> "list[int]":
     frame_durations = []
     for x in range(pillow.n_frames):
         pillow.seek(x)

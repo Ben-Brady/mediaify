@@ -16,7 +16,7 @@ class VideoProbe:
         self.filepath = filepath
         self.probe_data = ffmpeg.probe(self.filepath)
 
-    @cached_property
+    @property
     def video_stream(self) -> "dict[str, Any]":
         streams = self.probe_data['streams']
         video_streams = [x for x in streams if x['codec_type'] == 'video']
@@ -25,15 +25,15 @@ class VideoProbe:
         else:
             raise Exception('No or Multiple Video Streams Found')
 
-    @cached_property
+    @property
     def height(self) -> int:
         return int(self.video_stream['height'])
 
-    @cached_property
+    @property
     def width(self) -> int:
         return int(self.video_stream['width'])
 
-    @cached_property
+    @property
     def framerate(self) -> str:
         framerate = eval(self.video_stream['r_frame_rate'])
         if framerate % 1 == 0:
@@ -41,12 +41,12 @@ class VideoProbe:
 
         return str(framerate)
 
-    @cached_property
+    @property
     def mimetype(self) -> str:
         magic = Magic(mime=True)
         return magic.from_buffer(self.data)
 
-    @cached_property
+    @property
     def extention(self) -> str:
         ext = mimetypes.guess_extension(self.mimetype)
         if isinstance(ext, str):
@@ -54,18 +54,18 @@ class VideoProbe:
         else:
             raise Exception("Couldn't Guess File Extention")
 
-    @cached_property
+    @property
     def audio(self) -> bool:
         for stream in self.probe_data['streams']:
             if stream['codec_type'] == 'audio':
                 return True
         return False
 
-    @cached_property
+    @property
     def duration(self) -> float:
         return float(self.probe_data['format']['duration'])
 
-    @cached_property
+    @property
     def frame_count(self) -> Union[float, None]:
         if 'nb_frames' in self.video_stream:
             return float(self.video_stream['nb_frames'])
