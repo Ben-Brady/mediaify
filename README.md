@@ -13,9 +13,13 @@ files = mediaify.encode_media(data)
     ImageFile(128x128, image/webp),
     ImageFile(500x500, image/webp),
     AnimationFile(500x500 600ms, image/webp),
-    AnimationFile(500x500 600ms, image/webp),
+    AnimationFile(500x500 600ms, image/gif)
 ]
 ```
+
+# Documentation
+
+Unfinished.
 
 # Dependencies
 

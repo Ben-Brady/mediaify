@@ -1,7 +1,13 @@
 from dataclasses import dataclass
+from typing import TypeAlias
+
 
 @dataclass
-class ImageConfig:
+class OriginalFileConfig:
+    ...
+
+@dataclass
+class ImageEncodeConfig:
     width: int
     height: int
     quality: int = 100
@@ -9,7 +15,7 @@ class ImageConfig:
 
 
 @dataclass
-class AnimationConfig:
+class AnimationEncodeConfig:
     width: int
     height: int
     quality: int = 100
@@ -17,16 +23,15 @@ class AnimationConfig:
 
 
 @dataclass
-class VideoConfig:
-    width: int
-    height: int
-
-
-@dataclass
-class ThumbnailConfig(ImageConfig):
+class ThumbnailConfig(ImageEncodeConfig):
     offset: float = 0.5
 
 
 @dataclass
-class AnimationSummaryConfig(AnimationConfig):
+class AnimationSummaryConfig(AnimationEncodeConfig):
     frames: int = 0
+
+
+ImageConfig: TypeAlias = "ImageEncodeConfig | OriginalFileConfig"
+AnimationConfig: TypeAlias = "ThumbnailConfig | AnimationEncodeConfig | OriginalFileConfig"
+VideoConfig: TypeAlias = "ThumbnailConfig | OriginalFileConfig"

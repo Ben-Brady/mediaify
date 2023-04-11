@@ -1,51 +1,44 @@
 from .configs import (
-    AnimationConfig,
-    ImageConfig,
+    AnimationEncodeConfig,
+    ImageEncodeConfig,
     ThumbnailConfig,
+    OriginalFileConfig,
+    ImageConfig,
+    AnimationConfig,
     VideoConfig,
 )
 
+
 class Default:
-    image = [
-        ImageConfig(
+    image: list[ImageConfig] = [
+        ImageEncodeConfig(
             height=64,
             width=64,
             quality=80,
             lossless=False,
         ),
-        ImageConfig(
+        ImageEncodeConfig(
             height=128,
             width=128,
             quality=80,
             lossless=False,
         ),
-        ImageConfig(
+        ImageEncodeConfig(
             width=512,
             height=512,
             quality=90,
             lossless=False,
         ),
-        ImageConfig(
+        ImageEncodeConfig(
             width=1024,
             height=1024,
             quality=90,
             lossless=False,
         ),
-        ImageConfig(
-            width=2048,
-            height=2048,
-            quality=90,
-            lossless=False,
-        ),
-        ImageConfig(
-            width=4096,
-            height=4096,
-            quality=95,
-            lossless=False,
-        ),
+        OriginalFileConfig(),
     ]
 
-    animation = [
+    animation: list[AnimationConfig] = [
         ThumbnailConfig(
             height=128,
             width=128,
@@ -58,16 +51,64 @@ class Default:
             quality=70,
             lossless=False,
         ),
-        AnimationConfig(
+        AnimationEncodeConfig(
             width=256,
             height=256,
             quality=80,
             lossless=False,
         ),
-        AnimationConfig(
-            width=2048,
-            height=2048,
-            quality=100,
-            lossless=True,
-        ),
+        OriginalFileConfig(),
     ]
+
+    video: list[VideoConfig] = [
+        ThumbnailConfig(
+            height=128,
+            width=128,
+            quality=80,
+            lossless=False,
+        ),
+        ThumbnailConfig(
+            height=512,
+            width=512,
+            quality=85,
+            lossless=False,
+        ),
+        OriginalFileConfig(),
+    ]
+
+class SpaceSaving:
+    image: list[ImageConfig] = [
+        ImageEncodeConfig(
+            height=64,
+            width=64,
+            quality=80,
+            lossless=False,
+        ),
+        OriginalFileConfig(),
+    ]
+
+    animation: list[AnimationConfig] = [
+        ThumbnailConfig(
+            height=128,
+            width=128,
+            quality=60,
+            lossless=False,
+        ),
+        OriginalFileConfig(),
+    ]
+
+    video: list[VideoConfig] = [
+        ThumbnailConfig(
+            height=128,
+            width=128,
+            quality=80,
+            lossless=False,
+        ),
+        OriginalFileConfig(),
+    ]
+
+
+__all__ = [
+    "Default",
+    "SpaceSaving",
+]

@@ -1,25 +1,36 @@
-from . import configs, encoders, presets, GenericFile
-from .encoders import probe
+from . import encoders, presets, MediaFile, ImageFile
+from .configs import ImageConfig, AnimationConfig, VideoConfig
+from .encoders.utils import is_animated_sequence, guess_mimetype
+from PIL import Image as PILImage
+from magic import Magic
+from typing import Sequence
 from typing_extensions import Literal
+import io
 
 
 def encode_media(
         data: bytes,
-        image_configs: "list[configs.ImageConfig]" = presets.Default.image,
-        animation_configs: """list[
-            configs.AnimationConfig|
-            configs.ThumbnailConfig|
-            configs.VideoConfig
-        ]""" = presets.Default.animation,
-    ) -> "list[GenericFile]":
+        image_configs: "None|list[ImageConfig]" = presets.Default.image,
+        animation_configs: "None|list[AnimationConfig]" = presets.Default.animation,
+        video_configs: "None|list[VideoConfig]" = presets.Default.video,
+    ) -> "Sequence[MediaFile]":
     type = guess_type(data)
 
     if type == 'image':
-        return encoders.encode_image(data, image_configs)
+        if image_configs is None:
+            raise ValueError("Image encoding disabled")
+        else:
+            return encoders.encode_image(data, image_configs)
     elif type == 'animation':
-        return encoders.encode_animation(data, animation_configs)
+        if animation_configs is None:
+            raise ValueError("Animation encoding disabled")
+        else:
+            return encoders.encode_animation(data, animation_configs)
     elif type == 'video':
-        raise NotADirectoryError("Video files are not supported yet")
+        if video_configs is None:
+            raise ValueError("Video encoding disabled")
+        else:
+            return encoders.encode_video(data, video_configs)
     else:
         raise ValueError("Filetype not supported")
 
@@ -28,11 +39,11 @@ def guess_type(data: bytes) -> "Literal['image', 'video', 'animation']|None":
     """Raises:
     - ValueError: Filetype not supported
     """
-    mime = probe.guess_mimetype(data)
+    mime = guess_mimetype(data)
     type, subtype = mime.split('/')
 
     if subtype in {"webp", "gif", "apng"}:
-        if probe.is_animated_sequence(data):
+        if is_animated_sequence(data):
             return "animation"
         else:
             return "image"
@@ -42,3 +53,11 @@ def guess_type(data: bytes) -> "Literal['image', 'video', 'animation']|None":
         return "video"
     else:
         return None
+
+
+__all__ = [
+    "encode_media",
+    "guess_type",
+    "is_animated_sequence",
+    "guess_mimetype",
+]

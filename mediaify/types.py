@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Union
+from typing import Union, TypeAlias
+
 
 @dataclass(repr=False)
 class ImageFile:
@@ -8,7 +9,7 @@ class ImageFile:
     height: int
     width: int
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'ImageFile({self.width}x{self.height}, {self.mimetype})'
 
 
@@ -21,7 +22,7 @@ class AnimationFile:
     frame_count: int
     duration: float
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'AnimationFile({self.width}x{self.height} {self.duration}ms, {self.mimetype})'
 
 
@@ -35,11 +36,11 @@ class VideoFile:
     framerate: str
     hasAudio: bool
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'VideoFile(' \
             f"{self.width}x{self.height} {self.duration}s " \
             f"{'audio' if self.hasAudio else 'no audio'}, " \
             f"{self.mimetype})"
 
 
-GenericFile = Union[ImageFile, AnimationFile, VideoFile]
+MediaFile: TypeAlias = "ImageFile | AnimationFile | VideoFile"

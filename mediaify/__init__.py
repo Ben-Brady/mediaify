@@ -1,21 +1,22 @@
 from .types import (
-    GenericFile,
+    MediaFile,
     AnimationFile,
     ImageFile,
     VideoFile,
 )
 from . import encoders
-from .encoders import encode_image, encode_animation
 from . import presets
+from . import configs
+from . import utils
 from .utils import encode_media
 
 __all__ = [
+    "encoders",
+    "presets",
+    "configs",
+    "MediaFile",
     "AnimationFile",
     "ImageFile",
     "VideoFile",
-    "encoders",
-    "encode_image",
-    "encode_animation",
-    "presets",
     "encode_media",
 ]

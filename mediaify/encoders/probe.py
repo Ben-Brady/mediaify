@@ -1,16 +1,14 @@
 import mimetypes
 from typing import Any, Union
 from magic import Magic
-from PIL import Image as PILImage
-import ffmpeg
-import io
+import ffmpeg # type: ignore
 
 
 class VideoProbe:
     filepath: str
     data: bytes
 
-    def __init__(self, filepath):
+    def __init__(self, filepath: str):
         with open(filepath, 'rb') as f:
             self.data = f.read()
         self.filepath = filepath
@@ -21,7 +19,7 @@ class VideoProbe:
         streams = self.probe_data['streams']
         video_streams = [x for x in streams if x['codec_type'] == 'video']
         if len(video_streams) == 1:
-            return video_streams[0]
+            return video_streams[0] # type: ignore
         else:
             raise Exception('No or Multiple Video Streams Found')
 
@@ -72,13 +70,3 @@ class VideoProbe:
         else:
             return None
 
-
-def is_animated_sequence(data: bytes) -> bool:
-    buf = io.BytesIO(data)
-    pil_img = PILImage.open(buf, formats=None)
-    return pil_img.is_animated
-
-
-def guess_mimetype(data: bytes) -> str:
-    magic = Magic(mime=True)
-    return magic.from_buffer(data)
