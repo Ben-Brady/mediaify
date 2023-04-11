@@ -17,19 +17,27 @@ files = mediaify.encode_media(data)
 ]
 ```
 
-# Documentation
+# Installation
 
-Unfinished.
+[https://pypi.org/project/mediaify/](https://pypi.org/project/mediaify/)
 
-# Dependencies
+```
+python -m pip install mediaify
+```
+
+## Dependencies
 
 - ffmpeg
-    - Used to re-encode videos
+    - Ensure ffmpeg is on PATH, try running `ffmpeg` to check
     - Debain/Ubuntu: `sudo apt-get install ffmpeg`
-    - [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
+    - Other: [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
 - libmagic
-    - Non-windows platform need to manually install libmagic
+    - Windows: N/A, installed automatically
     - Debian/Ubuntu: `sudo apt-get install libmagic1`
     - Homebrew: `brew install libmagic`
     - macports: `port install file`
 
+
+# Documentation
+
+Unfinished.
