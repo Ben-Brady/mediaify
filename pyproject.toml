@@ -4,7 +4,7 @@ requires = ["flit_core >=3.8.0,<4"]
 
 [project]
 name = "mediaify"
-version = "0.0.1"
+version = "0.0.3"
 authors = [
     {name = "Ben Brady", email = "benbradybusiness@gmail.com"},
 ]
@@ -23,5 +23,5 @@ dependencies = [
     "ffmpeg-python~=0.2.0",
     "pillow~=9.5.0",
     "python_magic~=0.4.27",
-    "python-magic-bin; sys.platform == 'win32'",
+    "python-magic-bin; sys_platform == 'win32'",
 ]
