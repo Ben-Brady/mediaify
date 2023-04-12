@@ -77,13 +77,16 @@ mediaify.batch_encode_image(data, encoding_config)
 ```python
 import mediaify
 
-mediaify.encode_file("./heavy.mp4")
+with open("./heavy.mp4", "wb") as f:
+    mediaify.encode_media(f.read())
 >>> VideoFile(1280x720, 13.834s, 24fps, audio, video/mp4, 3.2MiB)
 
-mediaify.encode_file("./ricardo.gif")
+with open("./ricardo.gif", "wb") as f:
+    mediaify.encode_media(f.read())
 >>> AnimationFile(241x300, 6.4s 128 frames, 20.00fps, image/gif, 390.9KiB)
 
-mediaify.encode_file("./landscape.webp")
+with open("./landscape.webp", "wb") as f:
+    mediaify.encode_media(f.read())
 >>> ImageFile(1600x840, image/webp, 277.6KiB)
 ```
 
