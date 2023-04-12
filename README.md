@@ -1,6 +1,6 @@
 # Mediaify
 
-Media encoding made simple.
+Media encoding made simple. Encode media without the hassle by describing the output declaratively!
 
 ## [Simple](./examples/simple.py)
 
