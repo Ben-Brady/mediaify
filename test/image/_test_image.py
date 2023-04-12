@@ -1,4 +1,4 @@
-from mediaify import encode_image, presets
+from mediaify import batch_encode_image, presets
 import test.data as data
 import io
 import json
@@ -21,7 +21,7 @@ class OutputLocation:
     thumbnail = Path("./data/storage/image_thumbnail.webp")
 
 
-def load_image(path: Union[str, Path]) -> tuple[ImageFile, ImageFile, ImageFile]:
+def load_media(path: Union[str, Path]) -> tuple[ImageFile, ImageFile, ImageFile]:
     with open(path, 'rb') as f:
         with ImageEncoder(f.read()) as img:
             full = img.original()
@@ -32,13 +32,13 @@ def load_image(path: Union[str, Path]) -> tuple[ImageFile, ImageFile, ImageFile]
 
 class test_Resolutions_are_Correct(unittest.TestCase):
     def test_Small_Image_Doesnt_Change_Size(self):
-        variations = load_image(data.SMALL_IMAGE)
+        variations = load_media(data.SMALL_IMAGE)
         for x in variations:
             assert x.height == 5 and x.width == 5, f"Full: {x.height}x{x.width} is not 5x5"
 
     def test_Aspect_Ratio_is_Reserved(self):
         og_ratio = box_data.Landscape.height / box_data.Landscape.width
-        variations = load_image(TestData.Landscape)
+        variations = load_media(TestData.Landscape)
         for x in variations:
             new_ratio = x.height/x.width
             self.assertAlmostEqual(
@@ -100,7 +100,7 @@ class test_Create_Preview(unittest.TestCase):
                                                 max_height), "Image Preview Height or Width is not correct"
 
     def test_Small_Image_Doesnt_Change_Size(self):
-        preview = load_image(TestData.Small)[1]
+        preview = load_media(TestData.Small)[1]
         assert preview.height == 5, "Preview Height increased"
         assert preview.width == 5, "Preview Width increased"
 
@@ -128,6 +128,6 @@ class test_Create_Thumbnail(unittest.TestCase):
         assert 0 in res_delta, f"Image Thumbnail Height or Width is not correct: {res_delta}"
 
     def test_Small_Image_Doesnt_Change_Size(self):
-        thumbnail = load_image(TestData.Small)[2]
+        thumbnail = load_media(TestData.Small)[2]
         assert thumbnail.height == 5, f"{thumbnail.height}"
         assert thumbnail.width == 5, f"{thumbnail.width}"

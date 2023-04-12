@@ -1,19 +1,13 @@
-from modules.encoding import VideoEncoder, ImageFile
-import unittest
+from . import FIRE_VIDEO, HEAVY_VIDEO
+import mediaify
+import pytest
 import json
 from pathlib import Path
-from box import Box
 
-with open('data/test/sample_data.json') as f:
-    _json = json.load(f)
-    test_data = Box(_json['video'])
-
-
-class OutputLocation:
-    full = Path("./data/storage/video_full.mp4")
-    thumbnail = Path("./data/storage/video_thumbnail.webp")
-
-
+def test_video():
+    suite.addTest(unittest.makeSuite(test_Fire))
+    suite.addTest(unittest.makeSuite(test_Heavy))
+    return suite
 class test_Heavy(unittest.TestCase):
     def setUp(self):
         self.info = test_data.heavy

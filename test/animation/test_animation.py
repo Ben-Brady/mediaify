@@ -6,11 +6,7 @@ import unittest
 from PIL import Image as PILImage
 
 
-def load_PIL_from_data(data) -> PILImage.Image:
-    buf = io.BytesIO(data)
-    return PILImage.open(buf)
-
-animation_config = mediaify.configs.AnimationEncodeConfig(
+animation_config = mediaify.configs.GIFEncodeConfig(
     width=256,
     height=256,
     quality=90,
@@ -18,12 +14,17 @@ animation_config = mediaify.configs.AnimationEncodeConfig(
 )
 
 
+def load_PIL_from_bytes(data: bytes) -> PILImage.Image:
+    buf = io.BytesIO(data)
+    return PILImage.open(buf)
+
+
 def test_Animations_Require_More_Than_One_Frame():
     with open(SINGLE_FRAME_ANIMATION.filepath, "rb") as f:
         data = f.read()
 
     with pytest.raises(ValueError):
-        mediaify.encoders.encode_single_animation(data, animation_config)
+        mediaify.image.encode_single_animation(data, animation_config)
 
 
 @pytest.mark.skip("TODO: https://trello.com/c/p5Fv7jne/106-bug-fix-gif-encoding-strips-transparency")
@@ -31,8 +32,8 @@ def test_Animations_Preserve_Transparency():
     with open(TRANSPARENT_ANIMATION.filepath, 'rb') as f:
         data = f.read()
 
-    animation = mediaify.encoders.encode_single_animation(data, animation_config)
-    pillow = load_PIL_from_data(animation.data)
+    animation = mediaify.image.encode_single_animation(data, animation_config)
+    pillow = load_PIL_from_bytes(data)
     for x in range(pillow.n_frames):
         pillow.seek(x)
         RGB_MinMax_Values = pillow.getextrema()
@@ -42,10 +43,15 @@ def test_Animations_Preserve_Transparency():
 
 def test_animation_originalfile():
     ...
+
+
 def test_animation_animationencode():
     ...
+
+
 def test_animation_thumbnail():
     ...
+
 
 # class test_Animation_Full(unittest.TestCase):
 #     def setUp(self) -> None:

@@ -1,14 +1,21 @@
 from dataclasses import dataclass
 from typing_extensions import TypeAlias
 
+ImageConfig: TypeAlias = \
+    "ThumbnailConfig | UnencodedConfig | WEBPImageEncodeConfig"
+AnimationConfig: TypeAlias = \
+    "ThumbnailConfig | UnencodedConfig | GIFEncodeConfig | WEBPAnimationEncodeConfig"
+VideoConfig: TypeAlias = \
+    "ThumbnailConfig | UnencodedConfig | AnimationSummaryConfig"
+
 
 @dataclass
-class OriginalFileConfig:
+class UnencodedConfig:
     pass
 
 
 @dataclass
-class ImageEncodeConfig:
+class WEBPImageEncodeConfig:
     width: int
     height: int
     quality: int = 100
@@ -16,7 +23,13 @@ class ImageEncodeConfig:
 
 
 @dataclass
-class AnimationEncodeConfig:
+class GIFEncodeConfig:
+    width: int
+    height: int
+
+
+@dataclass
+class WEBPAnimationEncodeConfig:
     width: int
     height: int
     quality: int = 100
@@ -24,15 +37,13 @@ class AnimationEncodeConfig:
 
 
 @dataclass
-class ThumbnailConfig(ImageEncodeConfig):
-    offset: float = 0.5
+class ThumbnailConfig:
+    encoding: ImageConfig
+    offset: float = 0.2
 
 
 @dataclass
-class AnimationSummaryConfig(AnimationEncodeConfig):
-    frames: int = 0
-
-
-ImageConfig: TypeAlias = "ImageEncodeConfig | OriginalFileConfig"
-AnimationConfig: TypeAlias = "ThumbnailConfig | AnimationEncodeConfig | OriginalFileConfig"
-VideoConfig: TypeAlias = "ThumbnailConfig | OriginalFileConfig"
+class AnimationSummaryConfig:
+    encoding: AnimationConfig
+    framerate: int = 5
+    frames: int = 20

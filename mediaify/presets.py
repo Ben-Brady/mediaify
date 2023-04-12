@@ -1,110 +1,115 @@
 from .configs import (
-    AnimationEncodeConfig,
-    ImageEncodeConfig,
+    WEBPImageEncodeConfig,
     ThumbnailConfig,
-    OriginalFileConfig,
+    UnencodedConfig,
     ImageConfig,
     AnimationConfig,
     VideoConfig,
 )
+from typing import List
+
+_default_thumbnails = [
+    ThumbnailConfig(
+        offset=0.2,
+        encoding=WEBPImageEncodeConfig(
+            height=64,
+            width=64,
+            quality=60,
+            lossless=False,
+        )
+    ),
+    ThumbnailConfig(
+        offset=0.2,
+        encoding=WEBPImageEncodeConfig(
+            height=128,
+            width=128,
+            quality=60,
+            lossless=False,
+        )
+    ),
+    ThumbnailConfig(
+        offset=0.2,
+        encoding=WEBPImageEncodeConfig(
+            height=256,
+            width=256,
+            quality=80,
+            lossless=False,
+        )
+    ),
+    ThumbnailConfig(
+        offset=0.2,
+        encoding=WEBPImageEncodeConfig(
+            height=512,
+            width=512,
+            quality=80,
+            lossless=False,
+        )
+    ),
+]
 
 
 class Default:
-    image: "list[ImageConfig]" = [
-        ImageEncodeConfig(
-            height=64,
-            width=64,
-            quality=80,
-            lossless=False,
-        ),
-        ImageEncodeConfig(
-            height=128,
-            width=128,
-            quality=80,
-            lossless=False,
-        ),
-        ImageEncodeConfig(
-            width=512,
-            height=512,
-            quality=90,
-            lossless=False,
-        ),
-        ImageEncodeConfig(
+    image: "ImageConfig" = WEBPImageEncodeConfig(
+        width=1024,
+        height=1024,
+        quality=90,
+        lossless=False,
+    )
+    animation: "AnimationConfig" = UnencodedConfig()
+    video: "VideoConfig" = UnencodedConfig()
+
+    batch_image = list(_default_thumbnails + [
+        WEBPImageEncodeConfig(
             width=1024,
             height=1024,
             quality=90,
             lossless=False,
         ),
-        OriginalFileConfig(),
-    ]
+        UnencodedConfig(),
+    ])
+    batch_animation = list(_default_thumbnails + [
+        UnencodedConfig(),
+    ])
+    batch_video = list(_default_thumbnails + [
+        UnencodedConfig(),
+    ])
 
-    animation: "list[AnimationConfig]" = [
-        ThumbnailConfig(
-            height=128,
-            width=128,
-            quality=60,
-            lossless=False,
-        ),
-        ThumbnailConfig(
-            height=512,
-            width=512,
-            quality=70,
-            lossless=False,
-        ),
-        AnimationEncodeConfig(
-            width=256,
-            height=256,
-            quality=80,
-            lossless=False,
-        ),
-        OriginalFileConfig(),
-    ]
-
-    video: "list[VideoConfig]" = [
-        ThumbnailConfig(
-            height=128,
-            width=128,
-            quality=80,
-            lossless=False,
-        ),
-        ThumbnailConfig(
-            height=512,
-            width=512,
-            quality=85,
-            lossless=False,
-        ),
-        OriginalFileConfig(),
-    ]
 
 class SpaceSaving:
-    image: "list[ImageConfig]" = [
-        ImageEncodeConfig(
-            height=64,
-            width=64,
-            quality=80,
-            lossless=False,
+    image: "List[ImageConfig]" = [
+        ThumbnailConfig(
+            offset=0.2,
+            encoding=WEBPImageEncodeConfig(
+                height=128,
+                width=128,
+                quality=70
+            )
         ),
-        OriginalFileConfig(),
+        UnencodedConfig(),
     ]
 
-    animation: "list[AnimationConfig]" = [
+    animation: "List[AnimationConfig]" = [
         ThumbnailConfig(
-            height=128,
-            width=128,
-            quality=60,
-            lossless=False,
+            offset=0.2,
+            encoding=WEBPImageEncodeConfig(
+                height=128,
+                width=128,
+                quality=70
+            )
         ),
-        OriginalFileConfig(),
+        UnencodedConfig(),
     ]
 
-    video: "list[VideoConfig]" = [
+    video: "List[VideoConfig]" = [
         ThumbnailConfig(
-            height=128,
-            width=128,
-            quality=80,
-            lossless=False,
+            offset=0.2,
+            encoding=WEBPImageEncodeConfig(
+                height=128,
+                width=128,
+                quality=70
+            )
         ),
-        OriginalFileConfig(),
+        UnencodedConfig(),
     ]
 
 

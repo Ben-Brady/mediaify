@@ -30,35 +30,35 @@ class TestVideo:
 
 
 MASSIVE_IMAGE = TestImage(
-    filepath="./data/test/image/Massive.webp",
+    filepath="./data/test/image/massive.webp",
     mimetype="image/webp",
     width=10000,
     height=10000,
 )
 
 SMALL_IMAGE = TestImage(
-    filepath="./test/data/image/Small.webp",
+    filepath="./test/data/image/small.webp",
     mimetype="image/webp",
     width=5,
     height=5,
 )
 
 COMPLEX_IMAGE = TestImage(
-    filepath="./test/data/image/Complex.webp",
+    filepath="./test/data/image/complex.webp",
     mimetype="image/webp",
     width=2000,
     height=2000,
 )
 
 LANDSPACE_IMAGE = TestImage(
-    filepath="./test/data/image/Landscape.webp",
+    filepath="./test/data/image/landscape.webp",
     mimetype="image/webp",
     width=1600,
     height=840,
 )
 
 HEAVY_VIDEO = TestVideo(
-    filepath="./test/data/video/Heavy.mp4",
+    filepath="./test/data/video/heavy.mp4",
     mimetype="video/mp4",
     width=1280,
     height=720,
@@ -68,7 +68,7 @@ HEAVY_VIDEO = TestVideo(
 )
 
 FIRE_VIDEO = TestVideo(
-    filepath="./test/data/video/Fire.webm",
+    filepath="./test/data/video/fire.webm",
     mimetype="video/webm",
     width=492,
     height=360,
@@ -86,7 +86,7 @@ TRANSPARENT_ANIMATION = TestAnimation(
 )
 
 SINGLE_FRAME_ANIMATION = TestAnimation(
-    filepath="./test/data/animation/SingleFrame.gif",
+    filepath="./test/data/animation/single_frame.gif",
     mimetype="image/gif",
     width=241,
     height=300,
