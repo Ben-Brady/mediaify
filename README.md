@@ -12,14 +12,13 @@ with open('ricardo.gif', 'rb') as f:
 
 mediaify.batch_encode_animation(data)
 >>> [
-  ImageFile(128x128, image/webp, 6.2KiB),
-  ImageFile(500x500, image/webp, 55.1KiB),
-  AnimationFile(500x500, 0.6s, 0.05fps, image/webp, 23.4KiB),
-  AnimationFile(500x500, 0.6s, 0.05fps, image/gif, 1.0MiB)
+  ImageFile(51x64, image/webp, 402.0B),
+  ImageFile(102x128, image/webp, 808.0B),
+  ImageFile(205x256, image/webp, 2.5KiB),
+  ImageFile(241x300, image/webp, 3.3KiB),
+  AnimationFile(241x300, 6.4s 128 frames, 20.00fps, image/gif, 390.9KiB)
 ]
 ```
-
-### Output
 
 | 1 | 2 | 3 | 4 | 5 |
 | - | - | - | - | - |
@@ -69,8 +68,6 @@ mediaify.batch_encode_image(data, encoding_config)
 ]
 ```
 
-Output:
-
 | 1 | 2 | 3 | 4 |
 | - | - | - | - |
 | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-0.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-1.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-2.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-3.webp) |
@@ -80,14 +77,14 @@ Output:
 ```python
 import mediaify
 
-with open("./heavy.mp4") as f:
-  data = f.read()
+mediaify.encode_file("./heavy.mp4")
+>>> VideoFile(1280x720, 13.834s, 24fps, audio, video/mp4, 3.2MiB)
 
-with open("./fractal.mp4") as f:
-  data = f.read()
+mediaify.encode_file("./ricardo.gif")
+>>> AnimationFile(241x300, 6.4s 128 frames, 20.00fps, image/gif, 390.9KiB)
 
-mediaify.load_media(data)
->>>
+mediaify.encode_file("./landscape.webp")
+>>> ImageFile(1600x840, image/webp, 277.6KiB)
 ```
 
 # Installation
