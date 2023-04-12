@@ -23,7 +23,7 @@ mediaify.batch_encode_animation(data)
 
 | 1 | 2 | 3 | 4 | 5 |
 | - | - | - | - | - |
-| ![](examples/output/fractal-0.webp) | ![](examples/output/fractal-1.webp) | ![](examples/output/fractal-2.webp) | ![](examples/output/fractal-3.webp) | ![](examples/output/fractal-4.gif) |
+| ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/fractal-0.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/fractal-1.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/fractal-2.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/fractal-3.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/fractal-4.gif) |
 
 
 ## [Highly Customisable](./examples/customisable.py)
@@ -73,7 +73,7 @@ Output:
 
 | 1 | 2 | 3 | 4 |
 | - | - | - | - |
-| ![](examples/output/landscape-0.webp) | ![](examples/output/landscape-1.webp) | ![](examples/output/landscape-2.webp) | ![](examples/output/landscape-3.webp) |
+| ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-0.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-1.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-2.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-3.webp) |
 
 ## [Multimedia Support](./examples/customisable.py)
 
