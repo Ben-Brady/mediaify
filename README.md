@@ -75,7 +75,7 @@ Output:
 | - | - | - | - |
 | ![](examples/output/landscape-0.webp) | ![](examples/output/landscape-1.webp) | ![](examples/output/landscape-2.webp) | ![](examples/output/landscape-3.webp) |
 
-## [Multimeader Support](./examples/customisable.py)
+## [Multimedia Support](./examples/customisable.py)
 
 ```python
 import mediaify
