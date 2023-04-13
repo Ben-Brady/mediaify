@@ -12,11 +12,11 @@ with open('ricardo.gif', 'rb') as f:
 
 mediaify.batch_encode_animation(data)
 >>> [
-  ImageFile(51x64, image/webp, 402.0B),
-  ImageFile(102x128, image/webp, 808.0B),
-  ImageFile(205x256, image/webp, 2.5KiB),
-  ImageFile(241x300, image/webp, 3.3KiB),
-  AnimationFile(241x300, 6.4s 128 frames, 20.00fps, image/gif, 390.9KiB)
+    ImageFile(51x64, image/webp, 402.0B),
+    ImageFile(102x128, image/webp, 808.0B),
+    ImageFile(205x256, image/webp, 2.6KB),
+    ImageFile(241x300, image/webp, 3.3KB),
+    AnimationFile(241x300, 6.4s 128 frames, 20.00fps, image/gif, 400.3KB)
 ]
 ```
 
@@ -41,12 +41,11 @@ encoding_config = [
         width=64,
         quality=50
     ),
-    WEBPImageEncodeConfig(
+    PNGEncodeConfig(
         height=256,
-        width=256,
-        quality=70
+        width=256
     ),
-    WEBPImageEncodeConfig(
+    JPEGEncodeConfig(
         height=512,
         width=512,
         quality=80
@@ -61,16 +60,20 @@ with open('./landscape.webp', 'rb') as f:
 
 mediaify.batch_encode_image(data, encoding_config)
 >>> [
-  ImageFile(64x33, image/webp, 802.0B),
-  ImageFile(256x134, image/webp, 9.9KiB),
-  ImageFile(512x268, image/webp, 39.0KiB),
-  ImageFile(1600x840, image/webp, 277.6KiB)
+    ImageFile(64x33, image/webp, 802.0B),
+    ImageFile(256x134, image/png, 78.7KB),
+    ImageFile(512x268, image/jpeg, 42.3KB),
+    ImageFile(1600x840, image/webp, 284.3KB)
 ]
 ```
 
+
+
+
+
 | 1 | 2 | 3 | 4 |
 | - | - | - | - |
-| ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-0.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-1.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-2.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/landscape-3.webp) |
+| ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples//output/landscape-0.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples//output/landscape-1.png) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples//output/landscape-2.jpg) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples//output/landscape-3.webp) |
 
 ## [Multimedia Support](./examples/customisable.py)
 
@@ -79,15 +82,15 @@ import mediaify
 
 with open("./heavy.mp4", "wb") as f:
     mediaify.encode_media(f.read())
->>> VideoFile(1280x720, 13.834s, 24fps, audio, video/mp4, 3.2MiB)
+>>> VideoFile(1280x720, 13.834s, 24fps, audio, video/mp4, 3.4MB)
 
 with open("./ricardo.gif", "wb") as f:
     mediaify.encode_media(f.read())
->>> AnimationFile(241x300, 6.4s 128 frames, 20.00fps, image/gif, 390.9KiB)
+>>> AnimationFile(241x300, 6.4s 128 frames, 20.00fps, image/gif, 400.3KB)
 
 with open("./landscape.webp", "wb") as f:
     mediaify.encode_media(f.read())
->>> ImageFile(1600x840, image/webp, 277.6KiB)
+>>> ImageFile(1600x840, image/webp, 284.3KB)
 ```
 
 # Installation
@@ -100,15 +103,19 @@ python -m pip install mediaify
 
 ## Dependencies
 
-- ffmpeg
-  - Ensure ffmpeg is on PATH, try running `ffmpeg` to check
-  - Debain/Ubuntu: `sudo apt-get install ffmpeg`
-  - Other: [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
-- libmagic
-  - Windows: N/A, installed automatically
-  - Debian/Ubuntu: `sudo apt-get install libmagic1`
-  - Homebrew: `brew install libmagic`
-  - macports: `port install file`
+### ffmpeg
+
+Ensure ffmpeg is installed and on $PATH, try running `ffmpeg` to check
+
+- Debain/Ubuntu: `sudo apt-get install ffmpeg`
+- Other: [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
+
+### libmagic
+
+- Windows: N/A, installed automatically
+- Debian/Ubuntu: `sudo apt-get install libmagic1`
+- Homebrew: `brew install libmagic`
+- macports: `port install file`
 
 # Documentation
 

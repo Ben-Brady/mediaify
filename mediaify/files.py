@@ -84,11 +84,11 @@ class VideoFile(GenericMediaFile):
 
 # https://stackoverflow.com/a/1094933
 def format_bytes(length: float) -> str:
-    for unit in ["B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB"]:
-        if abs(length) < 1024.0:
+    for unit in ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB"]:
+        if abs(length) < 1000.0:
             return f"{length:3.1f}{unit}"
-        length /= 1024.0
-
+        length /= 1000.0
+    
     return f"{length:.1f}Yi"
 
 
