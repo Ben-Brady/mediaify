@@ -1,3 +1,4 @@
+from .ffmpeg import assert_ffmpeg_installed
 import mimetypes
 from typing import Any
 from typing import Dict
@@ -20,6 +21,7 @@ class VideoInfo:
 
 
 def get_video_info(filepath: str) -> VideoInfo:
+    assert_ffmpeg_installed()
     probe_data = ffmpeg.probe(filepath)
     video_stream = _get_video_stream(probe_data)
 

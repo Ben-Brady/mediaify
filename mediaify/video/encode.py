@@ -6,6 +6,7 @@ from ..configs import (
     AnimationSummaryConfig,
 )
 from .info import VideoInfo
+from .ffmpeg import assert_ffmpeg_installed
 from .summary import encode_as_animation_summary
 from .thumbnail import encode_as_thumbnail
 
@@ -16,6 +17,7 @@ def encode_video_with_config(
         info: VideoInfo,
         config: "VideoConfig"
         ) -> "VideoFile|AnimationFile|ImageFile":
+    assert_ffmpeg_installed()
     if isinstance(config, UnencodedConfig):
         return encode_as_original(data, info)
     elif isinstance(config, ThumbnailConfig):
