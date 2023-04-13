@@ -14,18 +14,6 @@ def load_image(data: bytes) -> "ImageFile":
     return encode_with_config(data, pillow, UnencodedConfig())
 
 
-def batch_encode_image(
-        data: bytes,
-        configs: "List[ImageConfig]" = Default.batch_image,
-        ) -> "List[ImageFile]":
-    """Raises:
-    - ValueError: Image is too big to process
-    - ValueError: Could not Load Image
-    """
-    pillow = open_as_pillow(data)
-    return [encode_with_config(data, pillow, config) for config in configs]
-
-
 def encode_image(
         data: bytes,
         config: ImageConfig = Default.image,
@@ -36,3 +24,15 @@ def encode_image(
     """
     pillow = open_as_pillow(data)
     return encode_with_config(data, pillow, config)
+
+
+def batch_encode_image(
+        data: bytes,
+        configs: "List[ImageConfig]" = Default.batch_image,
+        ) -> "List[ImageFile]":
+    """Raises:
+    - ValueError: Image is too big to process
+    - ValueError: Could not Load Image
+    """
+    pillow = open_as_pillow(data)
+    return [encode_with_config(data, pillow, config) for config in configs]

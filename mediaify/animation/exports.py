@@ -9,23 +9,9 @@ def load_animation(data: bytes) -> "AnimationFile":
     """Raises:
     - ValueError("Animation was too large")
     - ValueError("Could not Load Animation")
-    - ValueError("Animation Only Has 1 Frame")
     """
     pillow = open_as_pillow(data)
     return encode_as_original(data, pillow)
-
-
-def batch_encode_animation(
-        data: bytes,
-        configs: "List[AnimationConfig]" = Default.batch_animation,
-        ) -> "List[AnimationFile|ImageFile]":
-    """Raises:
-    - ValueError("Animation was too large")
-    - ValueError("Could not Load Animation")
-    - ValueError("Animation Only Has 1 Frame")
-    """
-    pillow = open_as_pillow(data)
-    return [encode_with_config(data, pillow, config) for config in configs]
 
 
 def encode_animation(
@@ -38,4 +24,16 @@ def encode_animation(
     """
     pillow = open_as_pillow(data)
     return encode_with_config(data, pillow, config)
+
+
+def batch_encode_animation(
+        data: bytes,
+        configs: "List[AnimationConfig]" = Default.batch_animation,
+        ) -> "List[AnimationFile|ImageFile]":
+    """Raises:
+    - ValueError("Animation was too large")
+    - ValueError("Could not Load Animation")
+    """
+    pillow = open_as_pillow(data)
+    return [encode_with_config(data, pillow, config) for config in configs]
 
