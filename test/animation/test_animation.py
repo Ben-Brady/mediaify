@@ -1,12 +1,11 @@
 import mediaify
-from test.data import FRACTAL_ANIMATION, SINGLE_FRAME_ANIMATION, TRANSPARENT_ANIMATION
+from test.data import TRANSPARENT_ANIMATION
 import pytest
 import io
-import unittest
 from PIL import Image as PILImage
 
 
-animation_config = mediaify.configs.GIFEncodeConfig(
+animation_config = mediaify.WEBPAnimationEncodeConfig(
     width=256,
     height=256,
     quality=90,
@@ -14,43 +13,19 @@ animation_config = mediaify.configs.GIFEncodeConfig(
 )
 
 
-def load_PIL_from_bytes(data: bytes) -> PILImage.Image:
-    buf = io.BytesIO(data)
-    return PILImage.open(buf)
-
-
-def test_Animations_Require_More_Than_One_Frame():
-    with open(SINGLE_FRAME_ANIMATION.filepath, "rb") as f:
-        data = f.read()
-
-    with pytest.raises(ValueError):
-        mediaify.image.encode_single_animation(data, animation_config)
-
-
-@pytest.mark.skip("TODO: https://trello.com/c/p5Fv7jne/106-bug-fix-gif-encoding-strips-transparency")
 def test_Animations_Preserve_Transparency():
     with open(TRANSPARENT_ANIMATION.filepath, 'rb') as f:
         data = f.read()
 
-    animation = mediaify.image.encode_single_animation(data, animation_config)
-    pillow = load_PIL_from_bytes(data)
+    animation = mediaify.encode_animation(data, animation_config)
+
+    buf = io.BytesIO(animation.data)
+    pillow = PILImage.open(buf)
     for x in range(pillow.n_frames):
         pillow.seek(x)
         RGB_MinMax_Values = pillow.getextrema()
         MaxTransparency = RGB_MinMax_Values[3][0]
         assert MaxTransparency != 255, f"Frame {x} is not transparent"
-
-
-def test_animation_originalfile():
-    ...
-
-
-def test_animation_animationencode():
-    ...
-
-
-def test_animation_thumbnail():
-    ...
 
 
 # class test_Animation_Full(unittest.TestCase):
