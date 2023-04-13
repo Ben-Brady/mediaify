@@ -1,12 +1,24 @@
 from dataclasses import dataclass
 from typing_extensions import TypeAlias
 
-ImageConfig: TypeAlias = \
-    "ThumbnailConfig | UnencodedConfig | WEBPImageEncodeConfig"
-AnimationConfig: TypeAlias = \
-    "ThumbnailConfig | UnencodedConfig | GIFEncodeConfig | WEBPAnimationEncodeConfig"
-VideoConfig: TypeAlias = \
-    "ThumbnailConfig | UnencodedConfig | AnimationSummaryConfig"
+ImageConfig: TypeAlias = """
+    PNGEncodeConfig |
+    JPEGEncodeConfig |
+    WEBPImageEncodeConfig |
+    UnencodedConfig |
+    ThumbnailConfig
+"""
+AnimationConfig: TypeAlias = """
+    GIFEncodeConfig |
+    WEBPAnimationEncodeConfig |
+    UnencodedConfig |
+    ThumbnailConfig
+"""
+VideoConfig: TypeAlias = """
+    AnimationSummaryConfig  |
+    UnencodedConfig |
+    ThumbnailConfig
+"""
 
 
 @dataclass
@@ -18,8 +30,22 @@ class UnencodedConfig:
 class WEBPImageEncodeConfig:
     width: int
     height: int
-    quality: int = 100
+    quality: int = 85
     lossless: bool = False
+
+
+@dataclass
+class PNGEncodeConfig:
+    width: int
+    height: int
+
+
+@dataclass
+class JPEGEncodeConfig:
+    width: int
+    height: int
+    quality: int = 85
+    progressive: bool = True
 
 
 @dataclass
@@ -32,7 +58,7 @@ class GIFEncodeConfig:
 class WEBPAnimationEncodeConfig:
     width: int
     height: int
-    quality: int = 100
+    quality: int = 85
     lossless: bool = False
 
 
@@ -45,5 +71,5 @@ class ThumbnailConfig:
 @dataclass
 class AnimationSummaryConfig:
     encoding: AnimationConfig
-    framerate: int = 5
-    frames: int = 20
+    framerate: int = 15
+    frames: int = 45
