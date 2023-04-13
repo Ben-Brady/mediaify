@@ -2,10 +2,14 @@ from ..files import ImageFile
 from ..configs import (
     UnencodedConfig,
     WEBPImageEncodeConfig,
+    PNGEncodeConfig,
+    JPEGEncodeConfig,
     ThumbnailConfig,
     ImageConfig
 )
 from ..utils import guess_mimetype
+from .png import encode_as_png
+from .jpeg import encode_as_jpeg
 from .webp import encode_as_webp
 from PIL import Image as PILImage
 import io
@@ -19,10 +23,14 @@ def encode_with_config(
     if isinstance(config, ThumbnailConfig):
         return encode_with_config(data, pillow, config.encoding)
 
-    if isinstance(config, WEBPImageEncodeConfig):
-        return encode_as_webp(pillow, config)
-    elif isinstance(config, UnencodedConfig):
+    if isinstance(config, UnencodedConfig):
         return encode_as_original(data, pillow)
+    elif isinstance(config, PNGEncodeConfig):
+        return encode_as_png(pillow, config)
+    elif isinstance(config, JPEGEncodeConfig):
+        return encode_as_jpeg(pillow, config)
+    elif isinstance(config, WEBPImageEncodeConfig):
+        return encode_as_webp(pillow, config)
     else:
         raise ValueError("Invalid encoding config")
 

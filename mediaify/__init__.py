@@ -6,6 +6,8 @@ from .files import (
 )
 from .configs import (
     WEBPImageEncodeConfig,
+    JPEGEncodeConfig,
+    PNGEncodeConfig,
     GIFEncodeConfig,
     WEBPAnimationEncodeConfig,
     UnencodedConfig,
@@ -66,6 +68,8 @@ __all__ = [
     "VideoFile",
 
     "WEBPImageEncodeConfig",
+    "JPEGEncodeConfig",
+    "PNGEncodeConfig",
     "GIFEncodeConfig",
     "WEBPAnimationEncodeConfig",
     "UnencodedConfig",
