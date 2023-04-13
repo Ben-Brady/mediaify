@@ -23,14 +23,14 @@ def encode_with_config(
         pillow: PILImage.Image,
         config: AnimationConfig
         ) -> "AnimationFile|ImageFile":
-    if isinstance(config, ThumbnailConfig):
-        return encode_as_thumbnail(pillow, config)
+    if isinstance(config, UnencodedConfig):
+        return encode_as_original(data, pillow)
     elif isinstance(config, GIFEncodeConfig):
         return encode_as_gif(pillow, config)
     elif isinstance(config, WEBPAnimationEncodeConfig):
         return encode_as_webp(pillow, config)
-    elif isinstance(config, UnencodedConfig):
-        return encode_as_original(data, pillow)
+    elif isinstance(config, ThumbnailConfig):
+        return encode_as_thumbnail(pillow, config)
     else:
         raise ValueError("Invalid encoding config")
 
@@ -76,8 +76,5 @@ def open_as_pillow(data: bytes) -> PILImage.Image:
         raise ValueError("Animation was too large")
     except Exception:
         raise ValueError("Could not Load Animation")
-
-    if pillow.n_frames == 1:
-        raise ValueError("Animation Only Has 1 Frame")
 
     return pillow

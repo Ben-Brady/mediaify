@@ -35,7 +35,6 @@ def encode_animation(
     """Raises:
     - ValueError("Animation was too large")
     - ValueError("Could not Load Animation")
-    - ValueError("Animation Only Has 1 Frame")
     """
     pillow = open_as_pillow(data)
     return encode_with_config(data, pillow, config)
