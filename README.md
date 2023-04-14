@@ -1,6 +1,8 @@
 # Mediaify
 
-Media encoding made simple. Encode media without the hassle by describing the output declaratively!
+Media encoding made simple!
+
+Encode media without the hassle of handling binary data and filenames, instead declare your output declaratively!
 
 ## [Simple](./examples/simple.py)
 
@@ -127,3 +129,17 @@ Ensure ffmpeg is installed and on $PATH, try running `ffmpeg` to check
 # Documentation
 
 Unfinished.
+
+# Roadmap
+
+- New Encoders
+    - Video
+        - [ ] WEBM
+        - [ ] MP4
+        - [ ] Video to Animation
+- Audio Support
+    - []
+- Better Resizing
+    - [] Min Size
+    - [] Cropping
+    - [] Blackbars

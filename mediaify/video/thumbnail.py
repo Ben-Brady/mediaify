@@ -34,6 +34,6 @@ def encode_as_thumbnail(
             )
         )
     except ffmpeg.Error as e:
-        raise ValueError(e.stderr)
+        raise ValueError(e.stderr.decode())
 
     return encode_image(data, config)

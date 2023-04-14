@@ -1,4 +1,5 @@
 from .ffmpeg import assert_ffmpeg_installed
+from ..files import VideoFile
 import mimetypes
 from typing import Any
 from typing import Dict
@@ -15,7 +16,7 @@ class VideoInfo:
     framerate: int
     mimetype: str
     extention: str
-    audio: bool
+    hasAudio: bool
     duration: float
     frame_count: "int|None"
 
@@ -57,7 +58,7 @@ def get_video_info(filepath: str) -> VideoInfo:
         mimetype=mimetype,
         extention=extention,
         framerate=framerate,
-        audio=hasAudio,
+        hasAudio=hasAudio,
         frame_count=frame_count,
         duration=duration,
     )

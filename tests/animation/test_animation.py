@@ -1,5 +1,5 @@
 import mediaify
-from test.data import TRANSPARENT_ANIMATION
+from tests.data import TRANSPARENT_ANIMATION
 import pytest
 import io
 from PIL import Image as PILImage
@@ -11,7 +11,7 @@ animation_config = mediaify.WEBPAnimationEncodeConfig(
 )
 
 
-def test_Animations_Preserve_Transparency():
+def test_Webp_Preserve_Transparency():
     with open(TRANSPARENT_ANIMATION.filepath, 'rb') as f:
         data = f.read()
 

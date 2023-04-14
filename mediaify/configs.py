@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing_extensions import TypeAlias
+from typing_extensions import Literal, TypeAlias
 
 ImageConfig: TypeAlias = """
     PNGEncodeConfig |
@@ -15,6 +15,8 @@ AnimationConfig: TypeAlias = """
     ThumbnailConfig
 """
 VideoConfig: TypeAlias = """
+    WEBMEncodeConfig |
+    MP4EncodeConfig |
     AnimationSummaryConfig  |
     UnencodedConfig |
     ThumbnailConfig
@@ -25,7 +27,7 @@ VideoConfig: TypeAlias = """
 class ResizeConfig:
     width: "int | None" = None
     height: "int | None" = None
-    
+
     max_width: "int | None" = None
     max_height: "int | None" = None
 
@@ -64,6 +66,25 @@ class WEBPAnimationEncodeConfig:
     resize: "ResizeConfig | None" = None
     quality: int = 85
     lossless: bool = False
+
+
+@dataclass
+class WEBMEncodeConfig:
+    resize: "ResizeConfig | None" = None
+    framerate: "float|None" = None
+
+
+MP4Preset: TypeAlias = Literal[
+    "ultrafast", "superfast", "veryfast",
+    "faster", "fast", "medium", "slow",
+    "slower", "veryslow"
+]
+@dataclass
+class MP4EncodeConfig:
+    resize: "ResizeConfig | None" = None
+    framerate: "float|None" = None
+    crf: int = 21
+    preset: MP4Preset = "fast"
 
 
 @dataclass
