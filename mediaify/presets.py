@@ -3,7 +3,7 @@ from .configs import (
     WEBPImageEncodeConfig,
     WEBPAnimationEncodeConfig,
     ThumbnailConfig,
-    UnencodedConfig,
+    MP4EncodeConfig,
     ImageConfig,
     AnimationConfig,
     VideoConfig,
@@ -57,20 +57,12 @@ _default_thumbnails = [
 class Default:
     image: "ImageConfig" = WEBPImageEncodeConfig(quality=95)
     animation: "AnimationConfig" = WEBPAnimationEncodeConfig(quality=90)
-    video: "VideoConfig" = UnencodedConfig()
+    video: "VideoConfig" = MP4EncodeConfig()
 
-    batch_image = list(_default_thumbnails + [
-        WEBPImageEncodeConfig(
-            resize=ResizeConfig(
-                max_width=1024,
-                max_height=1024,
-            ),
-            quality=90,
-        ),
-        UnencodedConfig(),
-    ])
-    batch_animation = list(_default_thumbnails + [UnencodedConfig()])
-    batch_video = list(_default_thumbnails + [UnencodedConfig()])
+    batch_image = list(_default_thumbnails + [WEBPImageEncodeConfig(quality=90)])
+    batch_animation = list(_default_thumbnails + [WEBPAnimationEncodeConfig(quality=90)])
+    batch_video = list(_default_thumbnails + [MP4EncodeConfig()])
+
 
 __all__ = [
     "Default",
