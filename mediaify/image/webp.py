@@ -2,7 +2,7 @@ from ..files import ImageFile
 from ..configs import (
     WEBPImageEncodeConfig,
 )
-from ..utils import calculate_downscale
+from ..resize import calculate_downscale
 from PIL import Image as PILImage
 import io
 
@@ -11,27 +11,22 @@ def encode_as_webp(
         pillow: PILImage.Image,
         config: WEBPImageEncodeConfig
         ) -> ImageFile:
-    width, height = calculate_downscale(
-        current=(pillow.width, pillow.height),
-        target=(config.width, config.height),
-    )
+    if config.resize is not None:
+        im_size = (pillow.width, pillow.height)
+        size = calculate_downscale(im_size, config.resize)
+        pillow = pillow.resize(size, PILImage.LANCZOS)
 
     buf = io.BytesIO()
-    pillow.resize(
-        (width, height),
-        PILImage.LANCZOS,
-    ).save(
+    pillow.save(
         fp=buf,
         format="webp",
         quality=config.quality,
         lossless=config.lossless
     )
 
-    data = buf.getvalue()
-
     return ImageFile(
-        data=data,
+        data=buf.getvalue(),
         mimetype='image/webp',
-        width=width,
-        height=height,
+        width=pillow.width,
+        height=pillow.height,
     )

@@ -22,7 +22,7 @@ mediaify.batch_encode_animation(data)
 
 | 1 | 2 | 3 | 4 | 5 |
 | - | - | - | - | - |
-| ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/fractal-0.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/fractal-1.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/fractal-2.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/fractal-3.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/fractal-4.gif) |
+| ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/ricardo-0.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/ricardo-1.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/ricardo-2.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/ricardo-3.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/ricardo-4.gif) |
 
 
 ## [Highly Customisable](./examples/customisable.py)
@@ -30,6 +30,7 @@ mediaify.batch_encode_animation(data)
 ```python
 import mediaify
 from mediaify.configs import (
+    ResizeConfig,
     WEBPImageEncodeConfig,
     ImageConfig,
     UnencodedConfig,
@@ -37,18 +38,24 @@ from mediaify.configs import (
 
 encoding_config = [
     WEBPImageEncodeConfig(
-        height=64,
-        width=64,
+        resize=ResizeConfig(
+            max_height=64,
+            max_width=64,
+        ),
         quality=50
     ),
     PNGEncodeConfig(
-        height=256,
-        width=256
+        resize=ResizeConfig(
+            max_height=256,
+            max_width=256,
+        ),
     ),
     JPEGEncodeConfig(
-        height=512,
-        width=512,
-        quality=80
+        resize=ResizeConfig(
+            max_height=512,
+            max_width=512,
+        ),
+        quality=80,
     ),
     UnencodedConfig()
 ]

@@ -2,7 +2,7 @@ from ..files import AnimationFile
 from ..configs import (
     WEBPAnimationEncodeConfig,
 )
-from ..utils import calculate_downscale
+from ..resize import calculate_downscale
 from .utils import (
     get_animation_duration_in_seconds,
     get_frame_lengths,
@@ -20,17 +20,13 @@ def encode_as_webp(
     if not PILFeatures.check("webp_anim"):
         raise RuntimeError("WebP animation support not available, WeBP library outdated?")
 
-    size = calculate_downscale(
-        current=(pillow.width, pillow.height),
-        target=(config.width, config.height),
-    )
+    if config.resize is not None:
+        im_size = (pillow.width, pillow.height)
+        size = calculate_downscale(im_size, config.resize)
+        pillow = pillow.resize(size, PILImage.LANCZOS)
 
     buf = io.BytesIO()
-    (
-    pillow.resize(
-        size=size,
-        resample=PILImage.LANCZOS,
-    ).save(
+    pillow.save(
         fp=buf,
         format='webp',
         lossless=config.lossless,
@@ -43,13 +39,12 @@ def encode_as_webp(
         allow_mixed=not config.lossless,
         disposal=2,
     )
-    )
 
     return AnimationFile(
         data=buf.getvalue(),
         mimetype='image/webp',
-        height=pillow.height,
         width=pillow.width,
+        height=pillow.height,
         frame_count=pillow.n_frames,
         duration=get_animation_duration_in_seconds(pillow),
     )

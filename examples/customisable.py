@@ -2,23 +2,30 @@ import mediaify
 from mediaify.configs import (
     WEBPImageEncodeConfig,
     PNGEncodeConfig,
+    ResizeConfig,
     JPEGEncodeConfig,
     UnencodedConfig,
 )
 
 encoding_config = [
     WEBPImageEncodeConfig(
-        height=64,
-        width=64,
+        resize=ResizeConfig(
+            max_height=64,
+            max_width=64,
+        ),
         quality=50
     ),
     PNGEncodeConfig(
-        height=256,
-        width=256
+        resize=ResizeConfig(
+            max_height=256,
+            max_width=256,
+        )
     ),
     JPEGEncodeConfig(
-        height=512,
-        width=512,
+        resize=ResizeConfig(
+            max_height=512,
+            max_width=512,
+        ),
         quality=80
     ),
     UnencodedConfig()

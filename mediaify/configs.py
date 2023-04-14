@@ -22,42 +22,46 @@ VideoConfig: TypeAlias = """
 
 
 @dataclass
+class ResizeConfig:
+    width: "int | None" = None
+    height: "int | None" = None
+    
+    max_width: "int | None" = None
+    max_height: "int | None" = None
+
+
+@dataclass
 class UnencodedConfig:
     pass
 
 
 @dataclass
 class WEBPImageEncodeConfig:
-    width: int
-    height: int
+    resize: "ResizeConfig | None" = None
     quality: int = 85
     lossless: bool = False
 
 
 @dataclass
 class PNGEncodeConfig:
-    width: int
-    height: int
+    resize: "ResizeConfig | None" = None
 
 
 @dataclass
 class JPEGEncodeConfig:
-    width: int
-    height: int
+    resize: "ResizeConfig | None" = None
     quality: int = 85
     progressive: bool = True
 
 
 @dataclass
 class GIFEncodeConfig:
-    width: int
-    height: int
+    resize: "ResizeConfig | None" = None
 
 
 @dataclass
 class WEBPAnimationEncodeConfig:
-    width: int
-    height: int
+    resize: "ResizeConfig | None" = None
     quality: int = 85
     lossless: bool = False
 

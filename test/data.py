@@ -15,7 +15,7 @@ class TestAnimation:
     mimetype: str
     width: int
     height: int
-    duration: int
+    frame_count: int
 
 
 @dataclass
@@ -82,7 +82,7 @@ TRANSPARENT_ANIMATION = TestAnimation(
     mimetype="image/gif",
     width=241,
     height=300,
-    duration=6400,
+    frame_count=6400,
 )
 
 SINGLE_FRAME_ANIMATION = TestAnimation(
@@ -90,7 +90,7 @@ SINGLE_FRAME_ANIMATION = TestAnimation(
     mimetype="image/gif",
     width=241,
     height=300,
-    duration=50,
+    frame_count=50,
 )
 
 FRACTAL_ANIMATION = TestAnimation(
@@ -98,5 +98,5 @@ FRACTAL_ANIMATION = TestAnimation(
     mimetype="image/gif",
     width=500,
     height=500,
-    duration=600,
+    frame_count=600,
 )

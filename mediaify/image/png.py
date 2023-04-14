@@ -2,7 +2,7 @@ from ..files import ImageFile
 from ..configs import (
     PNGEncodeConfig,
 )
-from ..utils import calculate_downscale
+from ..resize import calculate_downscale
 from PIL import Image as PILImage
 import io
 
@@ -11,16 +11,13 @@ def encode_as_png(
         pillow: PILImage.Image,
         config: PNGEncodeConfig,
         ) -> ImageFile:
-    width, height = calculate_downscale(
-        current=(pillow.width, pillow.height),
-        target=(config.width, config.height),
-    )
+    if config.resize is not None:
+        im_size = (pillow.width, pillow.height)
+        size = calculate_downscale(im_size, config.resize)
+        pillow = pillow.resize(size, PILImage.LANCZOS)
 
     buf = io.BytesIO()
-    pillow.resize(
-        (width, height),
-        PILImage.LANCZOS,
-    ).save(
+    pillow.save(
         fp=buf,
         format="png",
         optimize=True,
@@ -29,6 +26,6 @@ def encode_as_png(
     return ImageFile(
         data=buf.getvalue(),
         mimetype='image/png',
-        width=width,
-        height=height,
+        width=pillow.width,
+        height=pillow.height,
     )
