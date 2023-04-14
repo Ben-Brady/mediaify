@@ -82,7 +82,7 @@ TRANSPARENT_ANIMATION = TestAnimation(
     mimetype="image/gif",
     width=241,
     height=300,
-    frame_count=6400,
+    frame_count=128,
 )
 
 SINGLE_FRAME_ANIMATION = TestAnimation(
@@ -90,7 +90,7 @@ SINGLE_FRAME_ANIMATION = TestAnimation(
     mimetype="image/gif",
     width=241,
     height=300,
-    frame_count=50,
+    frame_count=1,
 )
 
 FRACTAL_ANIMATION = TestAnimation(
@@ -98,5 +98,5 @@ FRACTAL_ANIMATION = TestAnimation(
     mimetype="image/gif",
     width=500,
     height=500,
-    frame_count=600,
+    frame_count=12,
 )

@@ -22,4 +22,5 @@ def test_encode_as_png():
     assert image.width == 100
     assert image.height == 100
     assert image.mimetype == "image/webp"
+    assert image.mimetype == "image/webp"
     assert validate_image(image.data)

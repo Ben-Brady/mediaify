@@ -6,7 +6,7 @@ from ..resize import calculate_downscale
 from .utils import (
     get_animation_duration_in_seconds,
     get_frame_lengths,
-    get_animation_frames,
+    extract_animation_frames,
 )
 
 import io
@@ -17,17 +17,23 @@ def encode_as_gif(
         pillow: PILImage.Image,
         config: GIFEncodeConfig
         ) -> AnimationFile:
+    frames = extract_animation_frames(pillow)
+
     if config.resize is not None:
         im_size = (pillow.width, pillow.height)
         size = calculate_downscale(im_size, config.resize)
-        pillow = pillow.resize(size, PILImage.LANCZOS)
+        frames = [
+            frame.resize(size, PILImage.LANCZOS)
+            for frame in frames
+        ]
 
+    first_frame = frames[0]
     buf = io.BytesIO()
-    pillow.save(
+    first_frame.save(
         fp=buf,
         format='gif',
         save_all=True,  # Save as an animation
-        append_images=get_animation_frames(pillow),
+        append_images=frames[1:],
         duration=get_frame_lengths(pillow),
         optimize=True,
         loop=0,
@@ -36,8 +42,8 @@ def encode_as_gif(
     return AnimationFile(
         data=buf.getvalue(),
         mimetype='image/gif',
-        width=pillow.width,
-        height=pillow.height,
+        width=first_frame.width,
+        height=first_frame.height,
         frame_count=pillow.n_frames,
         duration=get_animation_duration_in_seconds(pillow),
     )
