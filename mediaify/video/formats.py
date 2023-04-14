@@ -3,7 +3,7 @@ from ..configs import (
     WEBMEncodeConfig,
 )
 from ..files import VideoFile
-from .process import encode_as_generic
+from .process import encode_generic_video
 from .info import VideoInfo
 import ffmpeg  # type: ignore
 
@@ -25,7 +25,7 @@ def encode_as_mp4(
             .run(capture_stderr=True)
         )
 
-    return encode_as_generic(data, pathname, info, config, save)
+    return encode_generic_video(data, pathname, info, config, save)
 
 
 def encode_as_webm(
@@ -45,4 +45,4 @@ def encode_as_webm(
             .run(capture_stderr=True)
         )
 
-    return encode_as_generic(data, pathname, info, config, save)
+    return encode_generic_video(data, pathname, info, config, save)

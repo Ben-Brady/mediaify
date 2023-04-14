@@ -8,9 +8,11 @@ from ..configs import (
     ImageConfig
 )
 from ..utils import guess_mimetype
-from .png import encode_as_png
-from .jpeg import encode_as_jpeg
-from .webp import encode_as_webp
+from .formats import (
+    encode_as_jpeg,
+    encode_as_png,
+    encode_as_webp
+)
 from PIL import Image as PILImage
 import io
 

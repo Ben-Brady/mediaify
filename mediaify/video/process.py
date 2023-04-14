@@ -11,7 +11,7 @@ from typing import Callable
 import ffmpeg  # type: ignore
 
 
-def encode_as_generic(
+def encode_generic_video(
         data: bytes,
         pathname: str,
         info: VideoInfo,
