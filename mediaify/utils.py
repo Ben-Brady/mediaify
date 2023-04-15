@@ -4,8 +4,7 @@ import io
 
 
 def is_animated_sequence(data: bytes) -> bool:
-    buf = io.BytesIO(data)
-    pil_img = PILImage.open(buf, formats=None)
+    pil_img = PILImage.open(io.BytesIO(data))
     return pil_img.is_animated
 
 

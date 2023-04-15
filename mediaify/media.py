@@ -14,17 +14,15 @@ def guess_type(data: bytes) -> "Literal['image', 'video', 'animation']|None":
     mime = guess_mimetype(data)
     type, subtype = mime.split('/')
 
-    if subtype in {"webp", "gif", "apng"}:
+    if type == 'video':
+        return "video"
+    elif type == 'image' or type == "animation":
         if is_animated_sequence(data):
             return "animation"
         else:
             return "image"
-    elif type == 'image':
-        return "image"
-    elif type == 'video':
-        return "video"
     else:
-        return None
+        raise ValueError("Filetype not supported")
 
 
 def load_media(data: bytes) -> MediaFile:
@@ -74,7 +72,6 @@ def batch_encode_media(
         return list(video.batch_encode_video(data, video_configs))
     else:
         raise ValueError("Filetype not supported")
-
 
 
 __all__ = [
