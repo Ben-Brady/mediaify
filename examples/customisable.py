@@ -1,5 +1,5 @@
 import mediaify
-from mediaify.configs import (
+from mediaify import (
     WEBPImageEncodeConfig,
     PNGEncodeConfig,
     ResizeConfig,

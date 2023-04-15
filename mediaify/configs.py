@@ -1,3 +1,4 @@
+from .resize import ResizeConfig
 from dataclasses import dataclass
 from typing_extensions import Literal, TypeAlias
 
@@ -21,15 +22,6 @@ VideoConfig: TypeAlias = """
     UnencodedConfig |
     ThumbnailConfig
 """
-
-
-@dataclass
-class ResizeConfig:
-    width: "int | None" = None
-    height: "int | None" = None
-
-    max_width: "int | None" = None
-    max_height: "int | None" = None
 
 
 @dataclass

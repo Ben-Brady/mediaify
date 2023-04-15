@@ -1,5 +1,6 @@
+from ..resize import ResizeConfig, calculate_downscale
 from PIL.Image import Image, LANCZOS
-from typing import List, Tuple
+from typing import List
 
 
 def get_animation_duration_in_milliseconds(pillow: Image) -> int:
@@ -12,10 +13,16 @@ def get_animation_duration_in_seconds(pillow: Image) -> float:
     return sum(get_frame_lengths(pillow)) / 1000
 
 
-def resize_animation(pillow: Image, size: "Tuple[int, int]") -> "list[Image]":
+def resize_animation(frames: "List[Image]", resize: "ResizeConfig|None") -> "List[Image]":
+    if resize is None:
+        return frames
+
+    pillow = frames[0]
+    size = (pillow.width, pillow.height)
+    size = calculate_downscale(size, resize)
     return [
         frame.resize(size, LANCZOS)
-        for frame in extract_animation_frames(pillow)
+        for frame in frames
     ]
 
 

@@ -8,6 +8,18 @@ from .info import VideoInfo
 import ffmpeg  # type: ignore
 
 
+def encode_as_original(data: bytes, info: VideoInfo) -> VideoFile:
+    return VideoFile(
+        data=data,
+        mimetype=info.mimetype,
+        height=info.height,
+        width=info.width,
+        duration=info.duration,
+        framerate=info.framerate,
+        hasAudio=info.hasAudio,
+    )
+
+
 def encode_as_mp4(
         data: bytes,
         pathname: str,

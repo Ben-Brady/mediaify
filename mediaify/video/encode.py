@@ -8,10 +8,10 @@ from ..configs import (
     AnimationSummaryConfig,
 )
 from .info import VideoInfo
-from .ffmpeg import assert_ffmpeg_installed
-from .formats import encode_as_mp4, encode_as_webm
+from .formats import encode_as_original, encode_as_mp4, encode_as_webm
 from .summary import encode_as_animation_summary
 from .thumbnail import encode_as_thumbnail
+import shutil
 
 
 def encode_video_with_config(
@@ -20,7 +20,9 @@ def encode_video_with_config(
         info: VideoInfo,
         config: "VideoConfig"
         ) -> "VideoFile|AnimationFile|ImageFile":
-    assert_ffmpeg_installed()
+    if not shutil.which("ffprobe"):
+        raise RuntimeError("ffprobe is not installed")
+
     if isinstance(config, UnencodedConfig):
         return encode_as_original(data, info)
     elif isinstance(config, WEBMEncodeConfig):
@@ -33,15 +35,3 @@ def encode_video_with_config(
         return encode_as_animation_summary(data, path, info, config)
     else:
         raise ValueError("Invalid encoding config")
-
-
-def encode_as_original(data: bytes, info: VideoInfo) -> VideoFile:
-    return VideoFile(
-        data=data,
-        mimetype=info.mimetype,
-        height=info.height,
-        width=info.width,
-        duration=info.duration,
-        framerate=info.framerate,
-        hasAudio=info.hasAudio,
-    )

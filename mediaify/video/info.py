@@ -1,10 +1,9 @@
-from .ffmpeg import assert_ffmpeg_installed
 from ..files import VideoFile
 import mimetypes
-from typing import Any
-from typing import Dict
+from typing import Any, Dict
 from dataclasses import dataclass
 from magic import Magic
+import shutil
 import numexpr  # type: ignore
 import ffmpeg  # type: ignore
 
@@ -22,7 +21,9 @@ class VideoInfo:
 
 
 def get_video_info(filepath: str) -> VideoInfo:
-    assert_ffmpeg_installed()
+    if not shutil.which("ffprobe"):
+        raise RuntimeError("ffprobe is not installed")
+
     probe_data = ffmpeg.probe(filepath)
     video_stream = _get_video_stream(probe_data)
 

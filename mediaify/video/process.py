@@ -1,10 +1,10 @@
 from ..configs import (
     WEBMEncodeConfig,
     MP4EncodeConfig,
-    ResizeConfig,
+
 )
 from ..files import VideoFile
-from ..resize import calculate_downscale
+from ..resize import calculate_downscale, ResizeConfig
 from .info import VideoInfo, get_video_info
 from tempfile import NamedTemporaryFile
 from typing import Callable

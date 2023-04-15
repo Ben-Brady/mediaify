@@ -7,6 +7,7 @@ from .utils import (
     get_animation_duration_in_seconds,
     get_frame_lengths,
     extract_animation_frames,
+    resize_animation,
 )
 
 import io
@@ -18,14 +19,7 @@ def encode_as_gif(
         config: GIFEncodeConfig
         ) -> AnimationFile:
     frames = extract_animation_frames(pillow)
-
-    if config.resize is not None:
-        im_size = (pillow.width, pillow.height)
-        size = calculate_downscale(im_size, config.resize)
-        frames = [
-            frame.resize(size, PILImage.LANCZOS)
-            for frame in frames
-        ]
+    frames = resize_animation(frames, config.resize)
 
     first_frame = frames[0]
     buf = io.BytesIO()

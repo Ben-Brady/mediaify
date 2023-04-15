@@ -1,5 +1,4 @@
 from .configs import (
-    ResizeConfig,
     WEBPImageEncodeConfig,
     WEBPAnimationEncodeConfig,
     ThumbnailConfig,
@@ -8,6 +7,7 @@ from .configs import (
     AnimationConfig,
     VideoConfig,
 )
+from .resize import ResizeConfig
 from typing import List
 
 _default_thumbnails = [

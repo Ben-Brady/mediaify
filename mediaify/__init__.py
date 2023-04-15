@@ -4,6 +4,7 @@ from .files import (
     ImageFile,
     VideoFile,
 )
+from .resize import ResizeConfig
 from .configs import (
     WEBPImageEncodeConfig,
     JPEGEncodeConfig,
@@ -15,7 +16,6 @@ from .configs import (
     ThumbnailConfig,
     AnimationSummaryConfig,
     UnencodedConfig,
-    ResizeConfig,
 
     AnimationConfig,
     ImageConfig,
