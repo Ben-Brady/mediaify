@@ -59,9 +59,9 @@ class Default:
     animation: "AnimationConfig" = WEBPAnimationEncodeConfig(quality=90)
     video: "VideoConfig" = MP4EncodeConfig()
 
-    batch_image = list(_default_thumbnails + [WEBPImageEncodeConfig(quality=90)])
-    batch_animation = list(_default_thumbnails + [WEBPAnimationEncodeConfig(quality=90)])
-    batch_video = list(_default_thumbnails + [MP4EncodeConfig()])
+    batch_image: "list[ImageConfig]" = list(_default_thumbnails + [WEBPImageEncodeConfig(quality=90)])
+    batch_animation: "list[AnimationConfig]" = list(_default_thumbnails + [WEBPAnimationEncodeConfig(quality=90)])
+    batch_video: "list[VideoConfig]" = list(_default_thumbnails + [MP4EncodeConfig()])
 
 
 __all__ = [

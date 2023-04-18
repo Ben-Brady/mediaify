@@ -1,13 +1,18 @@
 import mediaify
+from mediaify.configs import (
+    VideoPreviewAnimationConfig,
+    WEBPAnimationEncodeConfig,
+    ResizeConfig,
+)
 
 with open('./input/heavy.mp4', 'rb') as f:
     data = f.read()
 
-config = mediaify.AnimationSummaryConfig(
+config = VideoPreviewAnimationConfig(
     frames=60,
     framerate=15,
-    encoding=mediaify.WEBPAnimationEncodeConfig(
-        resize=mediaify.ResizeConfig(
+    encoding=WEBPAnimationEncodeConfig(
+        resize=ResizeConfig(
             width=192,
             height=108,
         ),

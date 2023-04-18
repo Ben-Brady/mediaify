@@ -20,6 +20,6 @@ def assert_guess_type(
     with open(filepath, 'rb') as f:
         data = f.read()
 
-    guessed_type = mediaify.media.guess_type(data)
+    guessed_type = mediaify.guess_type(data)
     assert guessed_type == intended_type
 

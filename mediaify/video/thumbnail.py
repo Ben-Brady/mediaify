@@ -4,7 +4,7 @@ from ..configs import (
 from ..files import ImageFile
 from ..image import encode_image
 from .info import VideoInfo
-import ffmpeg  # type: ignore
+from ffmpeg import FFmpeg, FFmpegError
 
 
 def encode_as_thumbnail(
@@ -14,26 +14,18 @@ def encode_as_thumbnail(
         config: ThumbnailConfig,
         ) -> ImageFile:
     offset = float(info.duration * config.offset)
-    if offset > info.duration:
-        offset = info.duration
+    offset = min(offset, info.duration)
 
     try:
-        data, _ = (
-            ffmpeg
-            .input(pathname)
-            .output(
+        data = FFmpeg(
+            ).input(pathname
+            ).output(
                 "pipe:",
                 f='image2',
                 vframes=1,
                 ss=offset,
-            )
-            .run(
-                input=data,
-                capture_stdout=True,
-                capture_stderr=True
-            )
-        )
-    except ffmpeg.Error as e:
-        raise ValueError(e.stderr.decode())
+            ).execute()
+    except FFmpegError as e:
+        raise ValueError(str(e))
 
     return encode_image(data, config)

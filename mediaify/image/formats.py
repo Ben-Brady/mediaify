@@ -4,8 +4,9 @@ from ..configs import (
     JPEGEncodeConfig,
     PNGEncodeConfig,
     WEBPImageEncodeConfig,
+    ResizeConfig,
 )
-from ..resize import ResizeConfig, calculate_downscale
+from ..resize import calculate_downscale
 from PIL import Image as PILImage
 import io
 

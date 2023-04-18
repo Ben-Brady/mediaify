@@ -1,11 +1,14 @@
 import mediaify
+from mediaify.configs import (
+    WEBPAnimationEncodeConfig,
+)
 from tests.data import TRANSPARENT_ANIMATION
 import pytest
 import io
 from PIL import Image as PILImage
 
 
-animation_config = mediaify.WEBPAnimationEncodeConfig(
+animation_config = WEBPAnimationEncodeConfig(
     quality=90,
     lossless=True,
 )

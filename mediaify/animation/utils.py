@@ -1,4 +1,5 @@
-from ..resize import ResizeConfig, calculate_downscale
+from ..configs import ResizeConfig
+from ..resize import calculate_downscale
 from PIL.Image import Image, LANCZOS
 from typing import List
 

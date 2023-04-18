@@ -5,7 +5,7 @@ from ..configs import (
     ThumbnailConfig,
     WEBMEncodeConfig,
     MP4EncodeConfig,
-    AnimationSummaryConfig,
+    VideoPreviewAnimationConfig,
 )
 from .info import VideoInfo
 from .formats import encode_as_original, encode_as_mp4, encode_as_webm
@@ -31,7 +31,7 @@ def encode_video_with_config(
         return encode_as_mp4(data, path, info, config)
     elif isinstance(config, ThumbnailConfig):
         return encode_as_thumbnail(data, path, info, config)
-    elif isinstance(config, AnimationSummaryConfig):
+    elif isinstance(config, VideoPreviewAnimationConfig):
         return encode_as_animation_summary(data, path, info, config)
     else:
         raise ValueError("Invalid encoding config")

@@ -5,40 +5,37 @@ from dataclasses import dataclass
 from magic import Magic
 import shutil
 import numexpr  # type: ignore
-import ffmpeg  # type: ignore
+from MediaInfo import MediaInfo
 
 
 @dataclass
 class VideoInfo:
     height: int
     width: int
-    framerate: int
+    framerate: float
     mimetype: str
     extention: str
     hasAudio: bool
     duration: float
-    frame_count: "int|None"
+    frame_count: int
 
 
 def get_video_info(filepath: str) -> VideoInfo:
     if not shutil.which("ffprobe"):
         raise RuntimeError("ffprobe is not installed")
 
-    probe_data = ffmpeg.probe(filepath)
-    video_stream = _get_video_stream(probe_data)
+    info: dict[str, str] = MediaInfo(filename=filepath).getInfo() # type: ignore
 
-    width = int(video_stream['width'])
-    height = int(video_stream['height'])
-
-    framerate = numexpr.evaluate(video_stream['r_frame_rate'])[()]
-    framerate = int(framerate)
-
-    duration = float(probe_data['format']['duration'])
-
-    if 'nb_frames' in video_stream:
-        frame_count = int(video_stream['nb_frames'])
+    width = int(info['videoWidth'])
+    height = int(info['videoHeight'])
+    framerate = numexpr.evaluate(info['videoFrameRate'])[()]
+    frame_count = int(info['videoFrameCount'])
+    if info['videoDuration'] is not None:
+        duration = float(info['videoDuration'])
     else:
-        frame_count = int(duration * framerate)
+        duration = framerate * frame_count
+
+    hasAudio = info["haveAudio"] == 1
 
     magic = Magic(mime=True)
     mimetype = magic.from_file(filepath)
@@ -46,12 +43,6 @@ def get_video_info(filepath: str) -> VideoInfo:
     extention = mimetypes.guess_extension(mimetype)
     if extention is None:
         raise Exception("Couldn't Guess File Extention")
-
-    audio_streams = [
-        stream for stream in probe_data['streams']
-        if stream['codec_type'] == 'audio'
-    ]
-    hasAudio = len(audio_streams) > 0
 
     return VideoInfo(
         width=width,
@@ -63,14 +54,3 @@ def get_video_info(filepath: str) -> VideoInfo:
         frame_count=frame_count,
         duration=duration,
     )
-
-
-def _get_video_stream(probe_data: Dict[str, Any]) -> "Dict[str, Any]":
-    video_streams = [
-        x for x in probe_data['streams']
-        if x['codec_type'] == 'video'
-    ]
-    if len(video_streams) == 0:
-        raise Exception('No Video Streams Found')
-
-    return video_streams[0]  # type: ignore

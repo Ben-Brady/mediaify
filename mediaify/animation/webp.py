@@ -2,7 +2,6 @@ from ..files import AnimationFile
 from ..configs import (
     WEBPAnimationEncodeConfig,
 )
-from ..resize import calculate_downscale
 from .utils import (
     get_animation_duration_in_seconds,
     get_frame_lengths,

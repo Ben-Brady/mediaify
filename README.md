@@ -2,7 +2,7 @@
 
 Media encoding made simple!
 
-Encode media without the hassle of handling binary data and filenames, instead declare your output declaratively!
+Encode media without the hassle of wrangling ffmpeg and pillow, instead declare your output declaratively!
 
 ## [Simple](./examples/simple.py)
 

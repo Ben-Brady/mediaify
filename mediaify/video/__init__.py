@@ -1,3 +1,4 @@
+from ..files import VideoFile
 from .exports import (
     load_video,
     encode_video,
@@ -8,4 +9,5 @@ __all__ = [
     "load_video",
     "batch_encode_video",
     "encode_video",
+    "VideoFile",
 ]

@@ -1,88 +1,39 @@
-from .files import (
-    GenericMediaFile,
-    AnimationFile,
-    ImageFile,
-    VideoFile,
-)
-from .resize import ResizeConfig
-from .configs import (
-    WEBPImageEncodeConfig,
-    JPEGEncodeConfig,
-    PNGEncodeConfig,
-    GIFEncodeConfig,
-    WEBPAnimationEncodeConfig,
-    WEBMEncodeConfig,
-    MP4EncodeConfig,
-    ThumbnailConfig,
-    AnimationSummaryConfig,
-    UnencodedConfig,
-
-    AnimationConfig,
-    ImageConfig,
-    VideoConfig,
-)
-from . import presets
+from .utils import guess_type
+from . import configs
 from .image import (
     load_image,
     encode_image,
     batch_encode_image,
+    ImageFile,
 )
 from .animation import (
     load_animation,
     encode_animation,
     batch_encode_animation,
+    AnimationFile,
 )
 from .video import (
     load_video,
     encode_video,
     batch_encode_video,
-)
-from .media import (
-    guess_type,
-    load_media,
-    encode_media,
-    batch_encode_media,
+    VideoFile,
 )
 
 __all__ = [
-    "presets",
     "configs",
-
-    "guess_type",
-    "load_media",
-    "encode_media",
-    "batch_encode_media",
 
     "load_image",
     "encode_image",
     "batch_encode_image",
+    "ImageFile",
 
     "load_animation",
     "encode_animation",
-    "batch_encode_video",
+    "batch_encode_animation",
+    "AnimationFile",
 
     "load_video",
     "encode_video",
-    "batch_encode_animation",
-
-    "GenericMediaFile",
-    "AnimationFile",
-    "ImageFile",
+    "batch_encode_video",
     "VideoFile",
-
-    "WEBPImageEncodeConfig",
-    "JPEGEncodeConfig",
-    "PNGEncodeConfig",
-    "GIFEncodeConfig",
-    "WEBPAnimationEncodeConfig",
-    "WEBMEncodeConfig",
-    "MP4EncodeConfig",
-    "AnimationSummaryConfig",
-    "ThumbnailConfig",
-    "UnencodedConfig",
-    "ResizeConfig",
-
-    "AnimationConfig",
-    "ImageConfig",
-    "VideoConfig",
 ]

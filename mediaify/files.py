@@ -1,19 +1,25 @@
 from dataclasses import dataclass
-from abc import ABC, abstractmethod
 from warnings import warn
 from mimetypes import guess_extension, add_type
-from typing_extensions import TypeAlias
+from typing_extensions import TypeAlias, Literal
 add_type('image/apng', '.apng')
 add_type('image/webp', '.webp')
 
 
-class GenericMediaFile(ABC):
+class GenericMediaFile:
     data: bytes
+    "The file's raw data, can be used to save to a file"
     mimetype: str
+    "The file's mimetype E.g. 'image/png'"
+    type: Literal["image", "animation", "video"]
+    "The media type, one of 'image', 'animation', 'video'"
 
     @property
     def ext(self) -> str:
-        "Returns the file extention for this file, including the '.'"
+        """
+        The file extention for this file including the '.'.
+        If the mimetype is unknown, '.bin' is returned
+        """
 
         ext = guess_extension(self.mimetype)
         if ext is None:
@@ -25,15 +31,12 @@ class GenericMediaFile(ABC):
         else:
             return ext
 
-    @abstractmethod
-    def __repr__(self) -> str:
-        ...
-
 
 @dataclass(repr=False)
 class ImageFile(GenericMediaFile):
     data: bytes
     mimetype: str
+    type = "image"
     height: int
     width: int
 
@@ -48,10 +51,13 @@ class ImageFile(GenericMediaFile):
 class AnimationFile(GenericMediaFile):
     data: bytes
     mimetype: str
+    type = "animation"
     height: int
     width: int
     frame_count: int
+    "The number of frames in the animation"
     duration: float
+    "The duration of the animation in seconds"
 
     def __repr__(self) -> str:
         return f'AnimationFile(' \
@@ -67,11 +73,15 @@ class AnimationFile(GenericMediaFile):
 class VideoFile(GenericMediaFile):
     data: bytes
     mimetype: str
+    type = "video"
     height: int
     width: int
     duration: float
-    framerate: int
+    "The duration of the video in seconds"
+    framerate: float
+    "The framerate of the video in fps"
     hasAudio: bool
+    "Does this video contain audio?"
 
     def __repr__(self) -> str:
         return f'VideoFile(' \
@@ -88,8 +98,14 @@ def format_bytes(length: float) -> str:
         if abs(length) < 1000.0:
             return f"{length:3.1f}{unit}"
         length /= 1000.0
-    
+
     return f"{length:.1f}Yi"
 
 
 MediaFile: TypeAlias = "ImageFile | AnimationFile | VideoFile"
+
+__all__ = [
+    "ImageFile",
+    "AnimationFile",
+    "VideoFile",
+]

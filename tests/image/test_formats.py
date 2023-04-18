@@ -1,24 +1,23 @@
 from .utils import validate_image
 from ..data import COMPLEX_IMAGE, TestImage
-from mediaify import (
+import mediaify
+from mediaify.configs import (
     JPEGEncodeConfig,
     PNGEncodeConfig,
     WEBPImageEncodeConfig,
     ResizeConfig,
     ImageConfig,
-    ImageFile,
-    encode_image,
 )
 
 
-def load_image(filepath: str, config: ImageConfig) -> ImageFile:
+def load_image(filepath: str, config: ImageConfig) -> mediaify.ImageFile:
     with open(filepath, 'rb') as f:
         data = f.read()
 
-    return encode_image(data, config)
+    return mediaify.encode_image(data, config)
 
 
-def assert_encoded_correctly(data: TestImage, image: ImageFile, mimetype: str):
+def assert_encoded_correctly(data: TestImage, image: mediaify.ImageFile, mimetype: str):
     assert image.width == data.width
     assert image.height == data.height
     assert image.mimetype == mimetype

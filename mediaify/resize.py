@@ -1,14 +1,7 @@
+from .configs import ResizeConfig
 from dataclasses import dataclass
 from typing import Tuple
 
-
-@dataclass
-class ResizeConfig:
-    width: "int | None" = None
-    height: "int | None" = None
-
-    max_width: "int | None" = None
-    max_height: "int | None" = None
 
 
 def calculate_downscale(size: "Tuple[int, int]", config: ResizeConfig) -> "Tuple[int, int]":

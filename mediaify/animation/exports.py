@@ -6,9 +6,16 @@ from typing import List
 
 
 def load_animation(data: bytes) -> "AnimationFile":
-    """Raises:
-    - ValueError("Animation was too large")
-    - ValueError("Could not Load Animation")
+    """
+    Loads an animation without any processing,
+    identical to `encode_animation(data, UnencodedConfig())`
+
+    Returns:
+        AnimationFile: The loaded animation
+
+    Raises:
+        ValueError: Animation was too large
+        ValueError: Could not Load Animation
     """
     pillow = open_as_pillow(data)
     return encode_as_original(data, pillow)
@@ -16,24 +23,38 @@ def load_animation(data: bytes) -> "AnimationFile":
 
 def encode_animation(
         data: bytes,
-        config: AnimationConfig = Default.animation,
+        config: "AnimationConfig|None" = None,
         ) -> "AnimationFile|ImageFile":
-    """Raises:
-    - ValueError("Animation was too large")
-    - ValueError("Could not Load Animation")
+    """Encodes an animation using an AnimationConfig
+
+    Returns:
+        AnimationFile|ImageFile: The encoded output
+
+    Raises:
+        ValueError: Animation was too large
+        ValueError: Could not Load Animation
     """
+    config = config or Default.animation
     pillow = open_as_pillow(data)
     return encode_with_config(data, pillow, config)
 
 
 def batch_encode_animation(
         data: bytes,
-        configs: "List[AnimationConfig]" = Default.batch_animation,
+        configs: "List[AnimationConfig]|None" = None,
         ) -> "List[AnimationFile|ImageFile]":
-    """Raises:
-    - ValueError("Animation was too large")
-    - ValueError("Could not Load Animation")
     """
+    Encodes an animation using a list of AnimationConfigs,
+    more efficent than calling `encode_animation` multiple times
+
+    Returns:
+        List[AnimationFile|ImageFile]: List of encoded output, guarenteed to be in the same order as the configs
+
+    Raises:
+        ValueError: Image is too big to process
+        ValueError: Could not Load Image
+    """
+    configs = configs or Default.batch_animation
     pillow = open_as_pillow(data)
     return [encode_with_config(data, pillow, config) for config in configs]
 

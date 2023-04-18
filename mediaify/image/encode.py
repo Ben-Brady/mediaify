@@ -56,9 +56,10 @@ def encode_as_original(data: bytes, pillow: PILImage.Image) -> ImageFile:
 
 
 def open_as_pillow(data: bytes) -> PILImage.Image:
-    """Raises:
-    - ValueError: Image is too big to process
-    - ValueError: Could not Load Image
+    """
+    Raises:
+        ValueError: Image is too big to process
+        ValueError: Could not Load Image
     """
     buf = io.BytesIO(data)
     try:
