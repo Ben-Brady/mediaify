@@ -4,6 +4,7 @@ Media encoding made simple!
 
 Encode media without the hassle of wrangling ffmpeg and pillow, instead declare your output declaratively!
 
+[![Documentation Status](https://readthedocs.org/projects/mediaify/badge/?version=latest)](https://mediaify.readthedocs.io/en/latest/?badge=latest)
 ## [Simple](./examples/simple.py)
 
 ```python
@@ -124,14 +125,15 @@ Unfinished.
 
 # Roadmap
 
+If you want any of these features to be developed, just flag an issue and I'll work on it.
+
 - New Encoders
-    - Video
-        - [ ] WEBM
-        - [ ] MP4
+    - [x] Video
+        - [X] WEBM
+        - [X] MP4
         - [ ] Video to Animation
-- Audio Support
-    - []
+    - [x] Audio Support
 - Better Resizing
-    - [] Min Size
-    - [] Cropping
-    - [] Blackbars
+    - [ ] Min Size
+    - [ ] Cropping
+    - [ ] Blackbars
