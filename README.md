@@ -121,7 +121,7 @@ Ensure ffmpeg is installed and on $PATH, try running `ffmpeg` to check
 
 # Documentation
 
-Unfinished.
+[https://mediaify.readthedocs.io/](https://mediaify.readthedocs.io/)
 
 # Roadmap
 

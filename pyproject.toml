@@ -38,6 +38,7 @@ dependencies = [
 ]
 [project.urls]
 Source = "https://github.com/Ben-Brady/mediaify"
+Documentation = "https://mediaify.readthedocs.io/"
 
 
 [project.optional-dependencies]
