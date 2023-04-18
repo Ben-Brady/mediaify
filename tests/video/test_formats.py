@@ -17,10 +17,12 @@ def encode_file(filepath: str, config: VideoConfig) -> VideoFile:
     return encode_video(data, config)  # type: ignore
 
 
-@pytest.mark.parametrize("args", [
-    ("video/mp4", MP4EncodeConfig()),
-    ("video/webm", WEBMEncodeConfig()),
-])
+@pytest.mark.parametrize("args",
+    [
+        ("video/mp4", MP4EncodeConfig(framerate=10)),
+        ("video/webm", WEBMEncodeConfig(framerate=10)),
+    ],
+    ids=["mp4", "webm"],)
 def test_video_encode(args):
     mimetype, config = args
     video = encode_file(FIRE_VIDEO.filepath, config)
@@ -31,10 +33,11 @@ def test_video_encode(args):
     assert video.mimetype == mimetype
 
 
-@pytest.mark.parametrize("config", [
-    MP4EncodeConfig(),
-    WEBMEncodeConfig(),
-])
+@pytest.mark.parametrize(
+    "config",
+    [MP4EncodeConfig(), WEBMEncodeConfig()],
+    ids=["mp4", "webm"],
+)
 def test_video_resize(config: "MP4EncodeConfig | WEBMEncodeConfig"):
     config.resize = ResizeConfig(width=320, height=240)
     video = encode_file(FIRE_VIDEO.filepath, config)
