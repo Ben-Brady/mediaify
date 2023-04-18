@@ -22,7 +22,7 @@ copyright = '2023, Ben Brady'
 author = 'Ben Brady'
 
 # The full version, including alpha/beta/rc tags
-release = '1.4.1'
+release = '2.0.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -34,7 +34,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
     'sphinx.ext.napoleon',
-   'sphinx.ext.autosummary'
+    'sphinx.ext.autosummary'
 ]
 
 autodoc_member_order = 'bysource'
