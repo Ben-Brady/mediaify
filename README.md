@@ -33,9 +33,10 @@ mediaify.batch_encode_animation(data)
 ```python
 import mediaify
 from mediaify.configs import (
-    ResizeConfig,
+    JPEGEncodeConfig,
+    PNGEncodeConfig,
     WEBPImageEncodeConfig,
-    ImageConfig,
+    ResizeConfig,
     UnencodedConfig,
 )
 
