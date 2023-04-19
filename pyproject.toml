@@ -31,6 +31,7 @@ classifiers = [
 requires-python = ">=3.9"
 dependencies = [
     "python-ffmpeg~=2.0.4",
+    "MediaInfo~=0.0.9",
     "pillow~=9.5.0",
     "python_magic~=0.4.27",
     "python-magic-bin; sys_platform == 'win32'",
