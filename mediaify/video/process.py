@@ -65,7 +65,8 @@ def add_progress_bar(
     )
 
     last_frame = 0
-    ffmpeg.on("progress")
+    
+    @ffmpeg.on("progress")
     def on_progress(progress: Progress) -> None:
         nonlocal last_frame
         frames_processed = progress.frame - last_frame
