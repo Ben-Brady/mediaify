@@ -39,23 +39,13 @@ preview = mediaify.VideoPreviewAnimationEncoding(
         resize=mediaify.TargetResolutionResize(width=640, height=360)
     )
 )
-fallback = mediaify.MP4Format(
-    video_codec=mediaify.H264Codec(crf=21, preset="medium"),
-    audio_codec=mediaify.OpusCodec(bitrate=128_000),
-    resize=mediaify.TargetResolutionResize(width=1280, height=720),
-)
-video_144p = mediaify.WEBMFormat(
-    video_codec=mediaify.AV1Codec(crf=55, preset=8),
-    audio_codec=mediaify.OpusCodec(bitrate=128_000),
-    resize=mediaify.TargetResolutionResize(width=256, height=144),
-)
-video_720p = mediaify.WEBMFormat(
+video = mediaify.WEBMFormat(
     video_codec=mediaify.AV1Codec(crf=45, preset=6),
     audio_codec=mediaify.OpusCodec(bitrate=128_000),
     resize=mediaify.TargetResolutionResize(width=1280, height=720),
 )
 
-configs = [thumbnail, preview, fallback, video_144p, video_720p]
+configs = [thumbnail, preview, video]
 with open('./examples/input/video.mp4', 'rb') as f:
     data = f.read()
 
@@ -63,31 +53,15 @@ mediaify.batch_encode_video(data, configs)
 >>> [
     ImageFile(192x108, image/webp, 2.2KB),
     AnimationFile(1280x720, 2.99s 45 frames, 15.05fps, image/webp, 4.5MB),
-    VideoFile(1280x720, 60.458s, 24.0fps, audio, video/mp4, 14.7MB),
-    VideoFile(256x144, 34824.0s, 24.0fps, audio, video/webm, 1.3MB),
     VideoFile(1280x720, 34824.0s, 24.0fps, audio, video/webm, 4.1MB),
 ]
 ```
 
-### Thumbnail
+| Thumbnail | Summary |
+| - | - |
+| ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/demo/video_encoding-thumbnail.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/demo/video_encoding-preview.webp) |
 
-![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/demo/video_encoding-thumbnail.webp)
-
-### Summary
-
-![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/demo/video_encoding-preview.webp)
-
-### MP4 Fallback
-
-https://user-images.githubusercontent.com/64110708/234427504-ebea02df-102f-4866-b770-9759f07c732c.mp4
-
-### 144p
-
-[video_encoding-144p.webm](https://user-images.githubusercontent.com/64110708/234427562-fb4af314-73ea-43db-938e-2d303f11d027.webm)
-
-### 720p
-
-[video_encoding-720p.webm](https://user-images.githubusercontent.com/64110708/234427566-b3412283-72ee-408c-813d-0b77a8d939f7.webm)
+[Video.webm](https://user-images.githubusercontent.com/64110708/234427566-b3412283-72ee-408c-813d-0b77a8d939f7.webm)
 
 
 
