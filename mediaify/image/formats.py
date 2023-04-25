@@ -1,9 +1,9 @@
 from typing import Callable
 from ..files import ImageFile
 from ..configs import (
-    JPEGEncodeConfig,
-    PNGEncodeConfig,
-    WEBPImageEncodeConfig,
+    JPEGFormat,
+    PNGFormat,
+    WEBPImageFormat,
     ResizeConfig,
 )
 from ..resize import calculate_downscale
@@ -13,7 +13,7 @@ import io
 
 def encode_as_jpeg(
         pillow: PILImage.Image,
-        config: JPEGEncodeConfig
+        config: JPEGFormat
         ) -> ImageFile:
     def save(image: PILImage.Image, fp: io.BytesIO) -> None:
         image.save(
@@ -34,7 +34,7 @@ def encode_as_jpeg(
 
 def encode_as_png(
         pillow: PILImage.Image,
-        config: PNGEncodeConfig,
+        config: PNGFormat,
         ) -> ImageFile:
     def save(image: PILImage.Image, fp: io.BytesIO) -> None:
         image.save(
@@ -53,7 +53,7 @@ def encode_as_png(
 
 def encode_as_webp(
         pillow: PILImage.Image,
-        config: WEBPImageEncodeConfig
+        config: WEBPImageFormat
         ) -> ImageFile:
     def save(image: PILImage.Image, fp: io.BytesIO) -> None:
         image.save(

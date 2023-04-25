@@ -6,10 +6,10 @@ import pytest
 def test_guess_type():
     assert_guess_type(data.SINGLE_FRAME_ANIMATION.filepath, 'image')
     assert_guess_type(data.FRACTAL_ANIMATION.filepath, 'animation')
-    assert_guess_type(data.TRANSPARENT_ANIMATION.filepath, 'animation')
+    assert_guess_type(data.RICARDO_ANIMATION.filepath, 'animation')
     assert_guess_type(data.COMPLEX_IMAGE.filepath, 'image')
     assert_guess_type(data.SMALL_IMAGE.filepath, 'image')
-    assert_guess_type(data.HEAVY_VIDEO.filepath, 'video')
+    assert_guess_type(data.KFC_VIDEO.filepath, 'video')
     assert_guess_type(data.FIRE_VIDEO.filepath, 'video')
 
 

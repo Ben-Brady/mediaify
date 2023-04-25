@@ -1,35 +1,16 @@
 from ..files import VideoFile, AnimationFile, ImageFile
-from ..configs import VideoConfig
-from ..presets import Default
+from ..configs import VideoEncodingType
 from .info import get_video_info
-from .encode import encode_video_with_config, encode_as_original
+from .encode import encode_video_with_config
 from tempfile import NamedTemporaryFile
 from typing import List
 
 
-def load_video(data: bytes) -> VideoFile:
-    """
-    Loads a video without any processing,
-    identical to `encode_video(data, UnencodedConfig())`
-
-    Returns:
-        VideoFile: The loaded video
-
-    Raises:
-        ValueError: Video could not be encoded
-    """
-    with NamedTemporaryFile() as f:
-        f.write(data)
-        info = get_video_info(f.name)
-
-    return encode_as_original(data, info)
-
-
 def encode_video(
         data: bytes,
-        config: "VideoConfig|None" = None,
+        config: "VideoEncodingType|None" = None,
         ) -> "VideoFile|AnimationFile|ImageFile":
-    """Encodes a video using a VideoConfig
+    """Encodes a video using a video config
 
     Returns:
         VideoFile|AnimationFile|ImageFile: The encoded output
@@ -37,7 +18,6 @@ def encode_video(
     Raises:
         ValueError: Video could not be encoded
     """
-    config = config or Default.video
     with NamedTemporaryFile() as f:
         f.write(data)
         info = get_video_info(f.name)
@@ -46,10 +26,10 @@ def encode_video(
 
 def batch_encode_video(
         data: bytes,
-        configs: "List[VideoConfig]|None" = None,
+        configs: "List[VideoEncodingType]",
         ) -> "List[VideoFile|AnimationFile|ImageFile]":
     """
-    Encodes a video using a list of VideoConfigs,
+    Encodes a video using a list of video configs,
     more efficent than calling `encode_video` multiple times
 
     Returns:
@@ -58,7 +38,6 @@ def batch_encode_video(
     Raises:
         ValueError: Video could not be encoded
     """
-    configs = configs or Default.batch_video
     with NamedTemporaryFile() as f:
         f.write(data)
         info = get_video_info(f.name)

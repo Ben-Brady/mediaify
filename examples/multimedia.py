@@ -1,17 +1,17 @@
 import mediaify
 
 
-with open("./input/landscape.webp", "rb") as f:
-  data = f.read()
+with open("./examples/input/image.png", "rb") as f:
+    data = f.read()
 
-print(mediaify.load_image(data))
+print(mediaify.encode_image(data))
 
-with open("./input/ricardo.gif", "rb") as f:
-  data = f.read()
+with open("./examples/input/animation.gif", "rb") as f:
+    data = f.read()
 
-print(mediaify.load_animation(data))
+print(mediaify.encode_animation(data))
 
-with open("./input/heavy.mp4", "rb") as f:
-  data = f.read()
+with open("./examples/input/video.mp4", "rb") as f:
+    data = f.read()
 
-print(mediaify.load_video(data))
+print(mediaify.encode_video(data))

@@ -22,7 +22,7 @@ copyright = '2023, Ben Brady'
 author = 'Ben Brady'
 
 # The full version, including alpha/beta/rc tags
-release = '2.0.1'
+release = '3.0.0'
 
 
 # -- General configuration ---------------------------------------------------

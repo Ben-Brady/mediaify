@@ -1,13 +1,13 @@
 from ..files import ImageFile
-from ..configs import (
-    UnencodedConfig,
-    WEBPImageEncodeConfig,
-    PNGEncodeConfig,
-    JPEGEncodeConfig,
-    ThumbnailConfig,
-    ImageConfig
-)
 from ..utils import guess_mimetype
+from ..configs import (
+    ThumbnailEncoding,
+    UnencodedEncoding,
+    PNGFormat,
+    JPEGFormat,
+    WEBPImageFormat,
+    ImageEncodingType,
+)
 from .formats import (
     encode_as_jpeg,
     encode_as_png,
@@ -20,18 +20,18 @@ import io
 def encode_with_config(
         data: bytes,
         pillow: PILImage.Image,
-        config: "ImageConfig",
+        config: "ImageEncodingType|None",
         ) -> "ImageFile":
-    if isinstance(config, ThumbnailConfig):
+    if isinstance(config, ThumbnailEncoding):
         return encode_with_config(data, pillow, config.encoding)
 
-    if isinstance(config, UnencodedConfig):
+    if isinstance(config, UnencodedEncoding) or config is None:
         return encode_as_original(data, pillow)
-    elif isinstance(config, PNGEncodeConfig):
+    elif isinstance(config, PNGFormat):
         return encode_as_png(pillow, config)
-    elif isinstance(config, JPEGEncodeConfig):
+    elif isinstance(config, JPEGFormat):
         return encode_as_jpeg(pillow, config)
-    elif isinstance(config, WEBPImageEncodeConfig):
+    elif isinstance(config, WEBPImageFormat):
         return encode_as_webp(pillow, config)
     else:
         raise ValueError("Invalid encoding config")
@@ -39,7 +39,7 @@ def encode_with_config(
 
 def encode_pilllow_with_config(
         pillow: PILImage.Image,
-        config: "ImageConfig",
+        config: "ImageEncodingType|None",
         ) -> "ImageFile":
     buf = io.BytesIO()
     pillow.save(fp=buf, format="png")

@@ -2,55 +2,59 @@ from .utils import validate_image
 from ..data import COMPLEX_IMAGE, TestImage
 import mediaify
 from mediaify.configs import (
-    JPEGEncodeConfig,
-    PNGEncodeConfig,
-    WEBPImageEncodeConfig,
+    JPEGFormat,
+    PNGFormat,
+    WEBPImageFormat,
     ResizeConfig,
-    ImageConfig,
+    ImageEncodingType,
 )
+import pytest
 
 
-def load_image(filepath: str, config: ImageConfig) -> mediaify.ImageFile:
+def load_image(filepath: str, config: ImageEncodingType) -> mediaify.ImageFile:
     with open(filepath, 'rb') as f:
         data = f.read()
 
     return mediaify.encode_image(data, config)
 
 
-def assert_encoded_correctly(data: TestImage, image: mediaify.ImageFile, mimetype: str):
-    assert image.width == data.width
-    assert image.height == data.height
+@pytest.mark.parametrize(
+    "mimetype,config",
+    [
+        ("image/jpeg", JPEGFormat(quality=60, progressive=True)),
+        ("image/png", PNGFormat()),
+        ("image/webp", WEBPImageFormat()),
+    ],
+    ids=["jpeg", "png", "webp"],
+)
+def test_encode_image_formats(mimetype, config):
+    with open(COMPLEX_IMAGE.filepath, 'rb') as f:
+        data = f.read()
+
+    image = mediaify.encode_image(data, config)
+
+    assert image.width == COMPLEX_IMAGE.width
+    assert image.height == COMPLEX_IMAGE.height
     assert image.mimetype == mimetype
     assert validate_image(image.data)
 
 
-def test_encode_as_jpeg():
-    image = load_image(
-        COMPLEX_IMAGE.filepath,
-        config=JPEGEncodeConfig(
-            quality=60,
-            progressive=True,
-        )
-    )
+@pytest.mark.parametrize(
+    "mimetype,config",
+    [
+        ("image/jpeg", JPEGFormat(quality=60, progressive=True)),
+        ("image/png", PNGFormat()),
+        ("image/webp", WEBPImageFormat()),
+    ],
+    ids=["jpeg", "png", "webp"],
+)
+def test_encode_image_with_resize(mimetype, config):
+    with open(COMPLEX_IMAGE.filepath, 'rb') as f:
+        data = f.read()
 
-    assert_encoded_correctly(COMPLEX_IMAGE, image, "image/jpeg")
+    image = mediaify.encode_image(data, config)
 
-
-def test_encode_as_png():
-    image = load_image(
-        COMPLEX_IMAGE.filepath,
-        config=PNGEncodeConfig()
-    )
-
-    assert_encoded_correctly(COMPLEX_IMAGE, image, "image/png")
-
-
-def test_encode_as_webp():
-    image = load_image(
-        COMPLEX_IMAGE.filepath,
-        config=WEBPImageEncodeConfig(
-            quality=60,
-        )
-    )
-
-    assert_encoded_correctly(COMPLEX_IMAGE, image, "image/webp")
+    assert image.width == COMPLEX_IMAGE.width
+    assert image.height == COMPLEX_IMAGE.height
+    assert image.mimetype == mimetype
+    assert validate_image(image.data)

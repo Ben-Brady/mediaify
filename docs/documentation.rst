@@ -1,12 +1,21 @@
 Documentation
 =================
 
+Audio
+-----------------
+
+.. autofunction:: mediaify.encode_audio
+.. autofunction:: mediaify.batch_encode_audio
+.. autoclass:: mediaify.AudioFile
+    :members: data, mimetype, type
+    :undoc-members:
+    :noindex:
+
 Image
 -----------------
 
 .. autofunction:: mediaify.encode_image
 .. autofunction:: mediaify.batch_encode_image
-.. autofunction:: mediaify.load_image
 .. autoclass:: mediaify.ImageFile
     :members: data, mimetype, ext, width, height
     :undoc-members:
@@ -15,7 +24,6 @@ Image
 Animation
 -----------------
 
-.. autofunction:: mediaify.load_animation
 .. autofunction:: mediaify.encode_animation
 .. autofunction:: mediaify.batch_encode_animation
 .. autoclass:: mediaify.AnimationFile
@@ -26,12 +34,12 @@ Animation
 Video
 -----------------
 
-.. autofunction:: mediaify.load_video
 .. autofunction:: mediaify.encode_video
 .. autofunction:: mediaify.batch_encode_video
 .. autoclass:: mediaify.VideoFile
     :members: data, mimetype, ext, height, width, duration, framerate, hasAudio
     :undoc-members:
+    :noindex:
 
 Utils
 -----------------
@@ -41,61 +49,90 @@ Utils
 Configs
 -----------------
 
+Audio Configs
+~~~~~~~~~~~~~~~~~
+
+.. autoclass:: mediaify.MP3Format
+    :members:
+    :undoc-members:
+.. autoclass:: mediaify.OpusFormat
+    :members:
+    :undoc-members:
+.. autoclass:: mediaify.FLACFormat
+    :members:
+    :undoc-members:
+.. autoclass:: mediaify.WAVFormat
+    :members:
+    :undoc-members:
+
 Image Configs
 ~~~~~~~~~~~~~~~~~
 
-.. autoclass:: mediaify.configs.WEBPImageEncodeConfig
+.. autoclass:: mediaify.WEBPImageFormat
     :members:
     :undoc-members:
-.. autoclass:: mediaify.configs.PNGEncodeConfig
+.. autoclass:: mediaify.JPEGFormat
     :members:
     :undoc-members:
-.. autoclass:: mediaify.configs.JPEGEncodeConfig
+.. autoclass:: mediaify.PNGFormat
     :members:
     :undoc-members:
 
 Animation Configs
 ~~~~~~~~~~~~~~~~~
 
-.. autoclass:: mediaify.configs.GIFEncodeConfig
+.. autoclass:: mediaify.GIFFormat
     :members:
     :undoc-members:
-.. autoclass:: mediaify.configs.WEBPAnimationEncodeConfig
+.. autoclass:: mediaify.WEBPAnimationFormat
     :members:
     :undoc-members:
 
 Video Configs
 ~~~~~~~~~~~~~~~~~
 
-.. autoclass:: mediaify.configs.WEBMEncodeConfig
+.. autoclass:: mediaify.WEBMFormat
     :members:
     :undoc-members:
-.. autoclass:: mediaify.configs.MP4EncodeConfig
+.. autoclass:: mediaify.MP4Format
     :members:
     :undoc-members:
-.. autoclass:: mediaify.configs.VideoPreviewAnimationConfig
+.. autoclass:: mediaify.VideoPreviewAnimationEncoding
     :members:
     :undoc-members:
 
 Codecs
 ~~~~~~~~~~~~~~~~~
 
-.. autoclass:: mediaify.configs.H264EncodeConfig
+.. autoclass:: mediaify.H264Codec
     :members:
     :undoc-members:
-.. autoclass:: mediaify.configs.VP9EncodeConfig
+.. autoclass:: mediaify.VP9Codec
     :members:
     :undoc-members:
-.. autoclass:: mediaify.configs.OpusEncodeConfig
+.. autoclass:: mediaify.AV1Codec
+    :members:
+    :undoc-members:
+.. autoclass:: mediaify.OpusCodec
     :members:
     :undoc-members:
 
-Special Configs
+Shared Configs
 ~~~~~~~~~~~~~~~~~
 
-.. autoclass:: mediaify.configs.UnencodedConfig
+.. autoclass:: mediaify.UnencodedEncoding
     :members:
     :undoc-members:
-.. autoclass:: mediaify.configs.ThumbnailConfig
+.. autoclass:: mediaify.ThumbnailEncoding
+    :members:
+    :undoc-members:
+
+Resize Configs
+~~~~~~~~~~~~~~~~~
+
+.. autoclass:: mediaify.MaxResolutionResize
+    :members:
+    :undoc-members:
+.. autoclass:: mediaify.TargetResolutionResize
     :members:
     :undoc-members:

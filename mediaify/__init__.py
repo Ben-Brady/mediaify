@@ -1,39 +1,104 @@
 from .utils import guess_type
 from . import configs
+from .configs import (
+    MaxResolutionResize,
+    TargetResolutionResize,
+    FLACFormat,
+    WAVFormat,
+    MP3Format,
+    OpusFormat,
+    WEBPImageFormat,
+    JPEGFormat,
+    PNGFormat,
+    GIFFormat,
+    WEBPAnimationFormat,
+    WEBMFormat,
+    MP4Format,
+    AV1Codec,
+    H264Codec,
+    VP9Codec,
+    OpusCodec,
+    VideoPreviewAnimationEncoding,
+    ThumbnailEncoding,
+    UnencodedEncoding,
+    ResizeConfig,
+    AudioEncodingType,
+    ImageEncodingType,
+    AnimationEncodingType,
+    VideoEncodingType,
+)
+from .audio import (
+    encode_audio,
+    batch_encode_audio,
+    AudioFile,
+)
 from .image import (
-    load_image,
     encode_image,
     batch_encode_image,
     ImageFile,
 )
 from .animation import (
-    load_animation,
     encode_animation,
     batch_encode_animation,
     AnimationFile,
 )
 from .video import (
-    load_video,
     encode_video,
     batch_encode_video,
     VideoFile,
 )
 
 __all__ = [
-    "configs",
+    "guess_type",
 
-    "load_image",
+    "encode_audio",
+    "batch_encode_audio",
+    "AudioFile",
+
     "encode_image",
     "batch_encode_image",
     "ImageFile",
 
-    "load_animation",
     "encode_animation",
     "batch_encode_animation",
     "AnimationFile",
 
-    "load_video",
     "encode_video",
     "batch_encode_video",
     "VideoFile",
+
+    "configs",
+
+    "MaxResolutionResize",
+    "TargetResolutionResize",
+
+    "FLACFormat",
+    "WAVFormat",
+    "MP3Format",
+    "OpusFormat",
+
+    "WEBPImageFormat",
+    "JPEGFormat",
+    "PNGFormat",
+
+    "GIFFormat",
+    "WEBPAnimationFormat",
+
+    "WEBMFormat",
+    "MP4Format",
+    "VideoPreviewAnimationEncoding",
+
+    "AV1Codec",
+    "H264Codec",
+    "VP9Codec",
+    "OpusCodec",
+
+    "ThumbnailEncoding",
+    "UnencodedEncoding",
+
+    "ResizeConfig",
+    "AudioEncodingType",
+    "ImageEncodingType",
+    "AnimationEncodingType",
+    "VideoEncodingType",
 ]

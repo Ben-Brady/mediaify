@@ -10,12 +10,12 @@ encoding settings
     with open("./examples/input/landscape.webp", "rb") as f:
         image_data = f.read()
 
-    png_config = mediaify.PNGEncodeConfig()
+    png_config = mediaify.PNGFormat()
     png_image = mediaify.encode_image(image_data, png_config)
     print(png_image)
     # >>> ImageFile(1600x840, image/png, 1.9MB)
 
-    webp_config = mediaify.WEBPImageEncodeConfig(
+    webp_config = mediaify.WEBPImageFormat(
         quality=80,
         lossless=False,
     )
@@ -32,12 +32,12 @@ the video codec and the audio codec.
 ::
 
     import mediaify
-    from mediaify.configs import VP9EncodeConfig, OpusEncodeConfig
+    from mediaify import VP9Codec, OpusCodec
 
     with open("./example.mp4", "rb") as f:
         video_data = f.read()
 
-    encoding_config = mediaify.configs.WEBMEncodeConfig(
+    encoding_config = mediaify.configs.WEBMFormat(
         framerate=10,
         codec=VP9EncodeConfig(
             crf=23,

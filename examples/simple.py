@@ -1,11 +1,12 @@
 import mediaify
 
-with open('./input/ricardo.gif', 'rb') as f:
+with open('./examples/input/image.png', 'rb') as f:
     data = f.read()
 
-files = mediaify.batch_encode_animation(data)
+image = mediaify.encode_image(
+    data,
+    mediaify.WEBPImageFormat(quality=90),
+)
 
-for i, file in enumerate(files):
-    with open(f"./output/ricardo-{i}{file.ext}", "wb") as f:
-        f.write(file.data)
-        print(f"Saved {file.ext} to {f.name}")
+with open("./examples/output/simple.webp", "wb") as f:
+    f.write(image.data)

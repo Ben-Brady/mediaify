@@ -1,14 +1,23 @@
 from ..configs import (
-    MP4EncodeConfig,
-    WEBMEncodeConfig,
-    H264EncodeConfig,
-    VP9EncodeConfig,
-    OpusEncodeConfig,
+    MP4Format,
+    WEBMFormat,
+    H264Codec,
+    VP9Codec,
+    OpusCodec,
+    AV1Codec,
 )
 from ..files import VideoFile
 from .process import encode_generic_video
 from .info import VideoInfo
-from ffmpeg import FFmpeg
+from .codecs import (
+    apply_av1_codec,
+    apply_vp9_codec,
+    apply_h264_codec,
+    apply_opus_codec,
+    apply_no_audio,
+)
+from ffmpeg import FFmpeg  # type: ignore
+from typing import TypeVar, Type, Callable
 
 
 def encode_as_original(data: bytes, info: VideoInfo) -> VideoFile:
@@ -27,72 +36,74 @@ def encode_as_mp4(
         data: bytes,
         pathname: str,
         info: VideoInfo,
-        config: MP4EncodeConfig,
+        config: MP4Format,
         ) -> VideoFile:
+    def process(ffmpeg: FFmpeg) -> FFmpeg:
+        VIDEO_CODECS = {
+            AV1Codec: apply_av1_codec,
+            H264Codec: apply_h264_codec,
+        }
+        AUDIO_CODECS = {
+            OpusCodec: apply_opus_codec,
+            type(None): apply_no_audio,
+        }
 
-    def save(ffmpeg: FFmpeg, filepath: str):
-        params = {}
+        ffmpeg = ffmpeg.option("f", "mp4")
+        ffmpeg = apply_codec(ffmpeg, VIDEO_CODECS, config.video_codec)
+        ffmpeg = apply_codec(ffmpeg, AUDIO_CODECS, config.audio_codec)
+        return ffmpeg
 
-        video_codec = config.video_codec
-        if isinstance(video_codec, H264EncodeConfig):
-            params["c:v"] = "libx264"
-            params["preset"] = video_codec.preset
-            params["crf"] = video_codec.crf
-        else:
-            raise ValueError(f"Unsupported Video Codec: {type(video_codec).__name__}")
-
-        audio_codec = config.audio_codec
-        if isinstance(audio_codec, OpusEncodeConfig):
-            params["c:a"] = "libopus"
-            params["b:a"] = audio_codec.bitrate
-        elif config.audio_codec is None:
-            params["an"] = None
-        else:
-            raise ValueError(f"Unsupported Audio Codec: {type(audio_codec).__name__}")
-
-        (ffmpeg
-            .output(
-                filepath,
-                params,
-                f='mp4',
-            )
-            .execute()
-        )
-
-    return encode_generic_video(data, pathname, info, config, save)
+    return encode_generic_video(
+        pathname,
+        info,
+        encoding_name=repr(config),
+        framerate=config.framerate,
+        resize_config=config.resize,
+        process_func=process,
+    )
 
 
 def encode_as_webm(
         data: bytes,
         pathname: str,
         info: VideoInfo,
-        config: WEBMEncodeConfig,
+        config: WEBMFormat,
         ) -> VideoFile:
-    def save(ffmpeg: FFmpeg, filepath: str):
-        params = {}
+    def process(ffmpeg: FFmpeg) -> FFmpeg:
+        VIDEO_CODECS = {
+            AV1Codec: apply_av1_codec,
+            VP9Codec: apply_vp9_codec,
+        }
+        AUDIO_CODECS = {
+            OpusCodec: apply_opus_codec,
+            type(None): apply_no_audio,
+        }
 
-        video_codec = config.video_codec
-        if isinstance(video_codec, VP9EncodeConfig):
-            params["c:v"] = "libvpx-vp9"
-            params["crf"] = video_codec.crf
-            params["deadline"] = video_codec.preset
-        else:
-            raise ValueError(f"Unsupported Video Codec: {type(video_codec).__name__}")
+        ffmpeg = ffmpeg.option("f", "webm")
+        ffmpeg = apply_codec(ffmpeg, VIDEO_CODECS, config.video_codec)
+        ffmpeg = apply_codec(ffmpeg, AUDIO_CODECS, config.audio_codec)
+        return ffmpeg
 
-        audio_codec = config.audio_codec
-        if isinstance(audio_codec, OpusEncodeConfig):
-            params["c:a"] = "libopus"
-            params["b:a"] = str(audio_codec.bitrate)
-        else:
-            raise ValueError(f"Unsupported Audio Codec: {type(audio_codec).__name__}")
+    return encode_generic_video(
+        pathname,
+        info,
+        encoding_name=repr(config),
+        framerate=config.framerate,
+        resize_config=config.resize,
+        process_func=process,
+    )
 
-        (ffmpeg
-            .output(
-                filepath,
-                params,
-                f='webm',
-            )
-            .execute()
-        )
 
-    return encode_generic_video(data, pathname, info, config, save)
+T = TypeVar("T")
+
+def apply_codec(
+        ffmpeg: FFmpeg,
+        supported_configs: dict[Type[T], Callable[[FFmpeg, T], FFmpeg]],
+        config: T
+        ) -> FFmpeg:
+    encoder = supported_configs.get(type(config), None)
+    if encoder is None:
+        raise ValueError(f"Unsupported Codec: {type(config)}")
+
+    return encoder(ffmpeg, config)
+

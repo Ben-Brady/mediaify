@@ -1,99 +1,110 @@
 # Mediaify
 
+
 Media encoding made simple!
 
 Encode media without the hassle of wrangling ffmpeg and pillow, instead declare your output declaratively!
 
+[Documentation](https://mediaify.readthedocs.io/)
+
 [![Documentation Status](https://readthedocs.org/projects/mediaify/badge/?version=latest)](https://mediaify.readthedocs.io/en/latest/?badge=latest)
-## [Simple](./examples/simple.py)
+
+## Simple
 
 ```python
 import mediaify
 
-with open('ricardo.gif', 'rb') as f:
+with open('./image.png', 'rb') as f:
     data = f.read()
 
-mediaify.batch_encode_animation(data)
->>> [
-    ImageFile(51x64, image/webp, 402.0B),
-    ImageFile(102x128, image/webp, 808.0B),
-    ImageFile(205x256, image/webp, 2.6KB),
-    ImageFile(241x300, image/webp, 3.3KB),
-    AnimationFile(241x300, 6.4s 128 frames, 20.00fps, image/gif, 400.3KB)
-]
+mediaify.encode_image(data, mediaify.WEBPImageFormat(quality=90))
+>>> ImageFile(1200x1600, image/webp, 162.6KB)
 ```
 
-| 1 | 2 | 3 | 4 | 5 |
-| - | - | - | - | - |
-| ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/ricardo-0.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/ricardo-1.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/ricardo-2.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/ricardo-3.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/output/ricardo-4.gif) |
+## Customisable
 
-
-## [Highly Customisable](./examples/customisable.py)
+Encode videos with multiple resolutions, formats, codecs as well as thumbnails and previews easily.
 
 ```python
 import mediaify
-from mediaify.configs import (
-    JPEGEncodeConfig,
-    PNGEncodeConfig,
-    WEBPImageEncodeConfig,
-    ResizeConfig,
-    UnencodedConfig,
-)
 
-encoding_config = [
-    JPEGEncodeConfig(
-        resize=ResizeConfig(
-            max_height=64,
-            max_width=64,
-        ),
+thumbnail = mediaify.ThumbnailEncoding(
+    encoding=mediaify.WEBPImageFormat(
+        resize=mediaify.TargetResolutionResize(width=192, height=108),
         quality=80,
     ),
-    PNGEncodeConfig(
-        resize=ResizeConfig(
-            height=256,
-            width=256,
-        )
-    ),
-    WEBPImageEncodeConfig(
-        quality=90
-    ),
-    UnencodedConfig()
-]
+)
+preview = mediaify.VideoPreviewAnimationEncoding(
+    encoding=mediaify.WEBPAnimationFormat(
+        resize=mediaify.TargetResolutionResize(width=640, height=360)
+    )
+)
+fallback = mediaify.MP4Format(
+    video_codec=mediaify.H264Codec(crf=21, preset="medium"),
+    audio_codec=mediaify.OpusCodec(bitrate=128_000),
+    resize=mediaify.TargetResolutionResize(width=1280, height=720),
+)
+video_144p = mediaify.WEBMFormat(
+    video_codec=mediaify.AV1Codec(crf=55, preset=8),
+    audio_codec=mediaify.OpusCodec(bitrate=128_000),
+    resize=mediaify.TargetResolutionResize(width=256, height=144),
+)
+video_720p = mediaify.WEBMFormat(
+    video_codec=mediaify.AV1Codec(crf=45, preset=6),
+    audio_codec=mediaify.OpusCodec(bitrate=128_000),
+    resize=mediaify.TargetResolutionResize(width=1280, height=720),
+)
 
-
-with open('./landscape.webp', 'rb') as f:
+configs = [thumbnail, preview, fallback, video_144p, video_720p]
+with open('./examples/input/video.mp4', 'rb') as f:
     data = f.read()
 
-
-mediaify.batch_encode_image(data, encoding_config)
+mediaify.batch_encode_video(data, configs)
 >>> [
-    ImageFile(64x33, image/webp, 802.0B),
-    ImageFile(256x134, image/png, 78.7KB),
-    ImageFile(512x268, image/jpeg, 42.3KB),
-    ImageFile(1600x840, image/webp, 284.3KB)
+    ImageFile(192x108, image/webp, 2.2KB),
+    AnimationFile(1280x720, 2.99s 45 frames, 15.05fps, image/webp, 4.5MB),
+    VideoFile(1280x720, 60.458s, 24.0fps, audio, video/mp4, 14.7MB),
+    VideoFile(256x144, 34824.0s, 24.0fps, audio, video/webm, 1.3MB),
+    VideoFile(1280x720, 34824.0s, 24.0fps, audio, video/webm, 4.1MB),
 ]
 ```
 
-| 1 | 2 | 3 | 4 |
-| - | - | - | - |
-| ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples//output/landscape-0.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples//output/landscape-1.png) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples//output/landscape-2.jpg) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples//output/landscape-3.webp) |
+| Thumbnail | Summary | Fallback | 144p | 720 |
+| - | - | - | - | - |
+| ![](./examples/output/video_encoding-thumbnail.webp) | ![](./examples/output/video_encoding-preview.webp) | ![](./examples/output/video_encoding-fallback.mp4) | ![](./examples/output/video_encoding-144p.webm) | ![](./examples/output/video_encoding-720p.webm) |
 
-## [Multimedia Support](./examples/customisable.py)
+
+## Multimedia Support
+
+Supports transcoding of several different media types.
+
+- Audio
+- Image
+- Animation
+- Video
 
 ```python
-import mediaify
+with open("./image.png", "rb") as f:
+    data = f.read()
+    print(mediaify.encode_audio(data))
 
-with open("./heavy.mp4", "wb") as f:
-    mediaify.encode_media(f.read())
->>> VideoFile(1280x720, 13.834s, 24fps, audio, video/mp4, 3.4MB)
+with open("./image.png", "rb") as f:
+    data = f.read()
+    print(mediaify.encode_image(data))
 
-with open("./ricardo.gif", "wb") as f:
-    mediaify.encode_media(f.read())
->>> AnimationFile(241x300, 6.4s 128 frames, 20.00fps, image/gif, 400.3KB)
 
-with open("./landscape.webp", "wb") as f:
-    mediaify.encode_media(f.read())
->>> ImageFile(1600x840, image/webp, 284.3KB)
+with open("./animation.gif", "rb") as f:
+    data = f.read()
+    print(mediaify.encode_animation(data))
+
+
+with open("./examples/input/video.mp4", "rb") as f:
+    data = f.read()
+    print(mediaify.encode_video(data))
+
+>>> ImageFile(1200x1600, image/png, 35.4KB)
+>>> AnimationFile(1280x800, 1.1s 11 frames, 10.00fps, image/gif, 132.8KB)
+>>> VideoFile(1242x1242, 17.800s, 25.0fps, audio, video/mp4, 4.2MB)
 ```
 
 # Installation
@@ -120,10 +131,6 @@ Ensure ffmpeg is installed and on $PATH, try running `ffmpeg` to check
 - Homebrew: `brew install libmagic`
 - macports: `port install file`
 
-# Documentation
-
-[https://mediaify.readthedocs.io/](https://mediaify.readthedocs.io/)
-
 # Roadmap
 
 If you want any of these features to be developed, just flag an issue and I'll work on it.
@@ -133,8 +140,8 @@ If you want any of these features to be developed, just flag an issue and I'll w
         - [X] WEBM
         - [X] MP4
         - [ ] Video to Animation
+        - [ ] Video to Audio
     - [x] Audio Support
 - Better Resizing
-    - [ ] Min Size
-    - [ ] Cropping
     - [ ] Blackbars
+    - [ ] Cropping

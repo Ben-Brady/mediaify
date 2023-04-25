@@ -1,31 +1,40 @@
 from ..configs import (
-    ThumbnailConfig,
+    ThumbnailEncoding,
 )
 from ..files import ImageFile
 from ..image import encode_image
 from .info import VideoInfo
-from ffmpeg import FFmpeg, FFmpegError
+from .process import add_progress_bar, resize_video
+from ffmpeg import FFmpeg, FFmpegError  # type: ignore
 
 
 def encode_as_thumbnail(
         data: bytes,
         pathname: str,
         info: VideoInfo,
-        config: ThumbnailConfig,
+        config: ThumbnailEncoding,
         ) -> ImageFile:
     offset = float(info.duration * config.offset)
     offset = min(offset, info.duration)
 
+    ffmpeg = (
+        FFmpeg()
+        .option("i", pathname)
+        .option("f", "webp")
+        .option("vframes", 1)
+        .option("ss", offset)
+    )
+    add_progress_bar(ffmpeg, 1, f"Thumbnail({config.encoding})")
+    if config.encoding and config.encoding.resize:
+        ffmpeg = resize_video(ffmpeg, info, config.encoding.resize)
+
     try:
-        data = FFmpeg(
-            ).input(pathname
-            ).output(
-                "pipe:",
-                f='image2',
-                vframes=1,
-                ss=offset,
-            ).execute()
+        data = (
+            ffmpeg
+            .output("pipe:")
+            .execute()
+        )
     except FFmpegError as e:
         raise ValueError(str(e))
-
-    return encode_image(data, config)
+    else:
+        return encode_image(data, config)

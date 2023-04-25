@@ -2,6 +2,14 @@ from dataclasses import dataclass
 
 
 @dataclass
+class TestAudio:
+    filepath: str
+    mimetype: str
+    duration: float
+    sample_rate: int
+
+
+@dataclass
 class TestImage:
     filepath: str
     mimetype: str
@@ -25,8 +33,16 @@ class TestVideo:
     width: int
     height: int
     duration: float
-    framerate: int
+    framerate: float
     hasAudio: bool
+
+
+MONKEY_AUDIO = TestAudio(
+    filepath="./tests/data/audio/monkey.mp3",
+    mimetype="image/webp",
+    duration=158.34,
+    sample_rate=44100,
+)
 
 
 MASSIVE_IMAGE = TestImage(
@@ -57,13 +73,13 @@ LANDSPACE_IMAGE = TestImage(
     height=840,
 )
 
-HEAVY_VIDEO = TestVideo(
-    filepath="./tests/data/video/heavy.mp4",
+KFC_VIDEO = TestVideo(
+    filepath="./tests/data/video/kfc.mp4",
     mimetype="video/mp4",
-    width=1280,
-    height=720,
-    duration=13.83,
-    framerate=24,
+    width=426,
+    height=240,
+    duration=5.99,
+    framerate=29.97,
     hasAudio=True,
 )
 
@@ -77,7 +93,7 @@ FIRE_VIDEO = TestVideo(
     hasAudio=True,
 )
 
-TRANSPARENT_ANIMATION = TestAnimation(
+RICARDO_ANIMATION = TestAnimation(
     filepath="./tests/data/animation/ricardo.gif",
     mimetype="image/gif",
     width=241,

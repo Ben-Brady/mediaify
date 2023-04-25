@@ -1,43 +1,47 @@
 from ..configs import (
-    VideoPreviewAnimationConfig,
+    VideoPreviewAnimationEncoding,
 )
 from ..files import AnimationFile
 from ..animation import encode_animation
 from .info import VideoInfo
+from .process import add_progress_bar, resize_video
 from tempfile import NamedTemporaryFile
-from ffmpeg import FFmpeg, FFmpegError
+from ffmpeg import FFmpeg, FFmpegError  # type: ignore
 
 
 def encode_as_animation_summary(
     data: bytes,
     pathname: str,
     info: VideoInfo,
-    config: VideoPreviewAnimationConfig,
+    config: VideoPreviewAnimationEncoding,
 ) -> AnimationFile:
-    with NamedTemporaryFile(suffix=".gif") as f:
-        try:
-            (
-                FFmpeg()
-                .input(pathname)
-                .option("vf", "setpts=PTS/{2}")  # set timescale
-                .option("y", None)  # overwrite output
-                .output(
-                    f.name,
-                    f="gif",
-                    vframes=config.frames,
-                    r=config.framerate,
-                )
-            )
-        except FFmpegError as e:
-            raise ValueError(str(e))
+    if config.frames > info.frame_count:
+        frame_count = info.frame_count
+        timescale = 1
+    else:
+        frame_count = config.frames
+        timescale = min(2, info.frame_count / config.frames)
 
-        f.seek(0)
-        data = f.read()
+    ffmpeg = (
+        FFmpeg()
+        .option("i", pathname)
+        .option("f", "gif")
+        .option("frames", frame_count)
+        .option("r", config.framerate)
+        .option("vf", f"setpts=PTS/{timescale}")
+    )
+    add_progress_bar(ffmpeg, frame_count, f"VideoSummary({config.encoding})")
+    if config.encoding and config.encoding.resize:
+        ffmpeg = resize_video(ffmpeg, info, config.encoding.resize)
 
-    animation = encode_animation(data, config.encoding)
-    if not isinstance(animation, AnimationFile):
-        raise SystemError(
-            "Animation Summary returned ImageFile instead of AnimationFile?"
-        )
+    try:
+        out_data = ffmpeg.output("pipe:").execute()
+    except FFmpegError as e:
+        raise ValueError(str(e))
+    else:
+        animation = encode_animation(out_data, config.encoding)
 
-    return animation
+        if not isinstance(animation, AnimationFile):
+            raise ValueError("Animation Summary encoded with ImageConfig")
+
+        return animation

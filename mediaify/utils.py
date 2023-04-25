@@ -14,11 +14,11 @@ def guess_mimetype(data: bytes) -> str:
     return magic.from_buffer(data)
 
 
-def guess_type(data: bytes) -> "Literal['image', 'video', 'animation']":
+def guess_type(data: bytes) -> "Literal['audio', 'image', 'video', 'animation']":
     """Guesses the type of the file from it's data
 
     Returns:
-        "image" | "animaton" | "video"
+        "audio" | "image" | "animaton" | "video"
 
     Raises:
         ValueError: Filetype not supported
@@ -27,6 +27,8 @@ def guess_type(data: bytes) -> "Literal['image', 'video', 'animation']":
 
     if mimetype.startswith('video'):
         return "video"
+    elif mimetype.startswith('audio'):
+        return "audio"
     elif mimetype.startswith('image') or mimetype.startswith('animation'):
         if is_animated_sequence(data):
             return "animation"

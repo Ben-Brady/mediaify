@@ -1,11 +1,10 @@
-from ..files import VideoFile
 import mimetypes
-from typing import Any, Dict
+from typing import Any
 from dataclasses import dataclass
 from magic import Magic
 import shutil
 import numexpr  # type: ignore
-from MediaInfo import MediaInfo
+from MediaInfo import MediaInfo  # type: ignore
 
 
 @dataclass
@@ -21,10 +20,7 @@ class VideoInfo:
 
 
 def get_video_info(filepath: str) -> VideoInfo:
-    if not shutil.which("ffprobe"):
-        raise RuntimeError("ffprobe is not installed")
-
-    info: dict[str, str] = MediaInfo(filename=filepath).getInfo() # type: ignore
+    info: dict[str, Any] = MediaInfo(filename=filepath).getInfo()
 
     width = int(info['videoWidth'])
     height = int(info['videoHeight'])

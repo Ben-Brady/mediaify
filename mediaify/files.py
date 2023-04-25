@@ -6,12 +6,12 @@ add_type('image/apng', '.apng')
 add_type('image/webp', '.webp')
 
 
-class GenericMediaFile:
+class BaseFile:
     data: bytes
     "The file's raw data, can be used to save to a file"
     mimetype: str
     "The file's mimetype E.g. 'image/png'"
-    type: Literal["image", "animation", "video"]
+    type: Literal["audio", "image", "animation", "video"]
     "The media type, one of 'image', 'animation', 'video'"
 
     @property
@@ -32,8 +32,27 @@ class GenericMediaFile:
             return ext
 
 
+    def save(self, filepath: str):
+        with open(filepath, "wb") as f:
+            f.write(self.data)
+
+
 @dataclass(repr=False)
-class ImageFile(GenericMediaFile):
+class AudioFile(BaseFile):
+    data: bytes
+    mimetype: str
+    type = "audio"
+
+    def __repr__(self) -> str:
+        return (
+            "AudioFile("
+            f"{self.mimetype}, {format_bytes(len(self.data))}"
+            ")"
+        )
+
+
+@dataclass(repr=False)
+class ImageFile(BaseFile):
     data: bytes
     mimetype: str
     type = "image"
@@ -41,14 +60,17 @@ class ImageFile(GenericMediaFile):
     width: int
 
     def __repr__(self) -> str:
-        return f"ImageFile(" \
-            f"{self.width}x{self.height}, " \
-            f"{self.mimetype}, {format_bytes(len(self.data))}" \
-            ")"
+        FORMAT = "ImageFile({w}x{h}, {mime}, {size})"
+        return FORMAT.format(
+            w=self.width,
+            h=self.height,
+            mime=self.mimetype,
+            size=format_bytes(len(self.data)),
+        )
 
 
 @dataclass(repr=False)
-class AnimationFile(GenericMediaFile):
+class AnimationFile(BaseFile):
     data: bytes
     mimetype: str
     type = "animation"
@@ -60,17 +82,20 @@ class AnimationFile(GenericMediaFile):
     "The duration of the animation in seconds"
 
     def __repr__(self) -> str:
-        return f'AnimationFile(' \
-            f"{self.width}x{self.height}, " \
-            f"{self.duration}s {self.frame_count} frames, "\
-            f"{(self.frame_count / self.duration):.2f}fps, " \
-            f"{self.mimetype}, " \
-            f"{format_bytes(len(self.data))}" \
-            ")"
+        FORMAT = "AnimationFile({w}x{h}, {dur}s {frames} frames, {fps}fps, {mime}, {size})"
+        return FORMAT.format(
+            w=self.width,
+            h=self.height,
+            dur=self.duration,
+            frames=self.frame_count,
+            fps=round(self.frame_count / self.duration, 2),
+            mime=self.mimetype,
+            size=format_bytes(len(self.data)),
+        )
 
 
 @dataclass(repr=False)
-class VideoFile(GenericMediaFile):
+class VideoFile(BaseFile):
     data: bytes
     mimetype: str
     type = "video"
@@ -84,12 +109,16 @@ class VideoFile(GenericMediaFile):
     "Does this video contain audio?"
 
     def __repr__(self) -> str:
-        return f'VideoFile(' \
-            f"{self.width}x{self.height}, " \
-            f"{self.duration:.3f}s, {self.framerate}fps, " \
-            f"{'audio' if self.hasAudio else 'no audio'}, " \
-            f"{self.mimetype}, {format_bytes(len(self.data))}" \
-            ")"
+        FORMAT = "VideoFile({w}x{h}, {dur}s, {fps}fps, {audio}, {mime}, {size})"
+        return FORMAT.format(
+            w=self.width,
+            h=self.height,
+            dur=round(self.duration, 3),
+            fps=round(self.framerate, 2),
+            audio="audio" if self.hasAudio else "no audio",
+            mime=self.mimetype,
+            size=format_bytes(len(self.data)),
+        )
 
 
 # https://stackoverflow.com/a/1094933
@@ -102,9 +131,11 @@ def format_bytes(length: float) -> str:
     return f"{length:.1f}Yi"
 
 
-MediaFile: TypeAlias = "ImageFile | AnimationFile | VideoFile"
+MediaFile: TypeAlias = "AudioFile | ImageFile | AnimationFile | VideoFile"
 
 __all__ = [
+    "MediaFile",
+    "AudioFile",
     "ImageFile",
     "AnimationFile",
     "VideoFile",
