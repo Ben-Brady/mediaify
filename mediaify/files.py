@@ -31,8 +31,8 @@ class BaseFile:
         else:
             return ext
 
-
-    def save(self, filepath: str):
+    def save(self, filepath: str) -> None:
+        "Saves the file to the given path"
         with open(filepath, "wb") as f:
             f.write(self.data)
 

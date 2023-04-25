@@ -7,7 +7,7 @@ Audio
 .. autofunction:: mediaify.encode_audio
 .. autofunction:: mediaify.batch_encode_audio
 .. autoclass:: mediaify.AudioFile
-    :members: data, mimetype, type
+    :members: data, mimetype, type, save
     :undoc-members:
     :noindex:
 
@@ -17,7 +17,7 @@ Image
 .. autofunction:: mediaify.encode_image
 .. autofunction:: mediaify.batch_encode_image
 .. autoclass:: mediaify.ImageFile
-    :members: data, mimetype, ext, width, height
+    :members: data, mimetype, ext, width, height, save
     :undoc-members:
     :noindex:
 
@@ -27,7 +27,7 @@ Animation
 .. autofunction:: mediaify.encode_animation
 .. autofunction:: mediaify.batch_encode_animation
 .. autoclass:: mediaify.AnimationFile
-    :members: data, mimetype, ext, height, width, frame_count, duration
+    :members: data, mimetype, ext, height, width, frame_count, duration, save
     :undoc-members:
     :noindex:
 
@@ -37,7 +37,7 @@ Video
 .. autofunction:: mediaify.encode_video
 .. autofunction:: mediaify.batch_encode_video
 .. autoclass:: mediaify.VideoFile
-    :members: data, mimetype, ext, height, width, duration, framerate, hasAudio
+    :members: data, mimetype, ext, height, width, duration, framerate, hasAudio, save
     :undoc-members:
     :noindex:
 

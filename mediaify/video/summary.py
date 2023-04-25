@@ -17,7 +17,7 @@ def encode_as_animation_summary(
 ) -> AnimationFile:
     if config.frames > info.frame_count:
         frame_count = info.frame_count
-        timescale = 1
+        timescale = 1.
     else:
         frame_count = config.frames
         timescale = min(2, info.frame_count / config.frames)
