@@ -69,9 +69,26 @@ mediaify.batch_encode_video(data, configs)
 ]
 ```
 
-| Thumbnail | Summary | Fallback | 144p | 720 |
-| - | - | - | - | - |
-| ![](./examples/output/video_encoding-thumbnail.webp) | ![](./examples/output/video_encoding-preview.webp) | ![](./examples/output/video_encoding-fallback.mp4) | ![](./examples/output/video_encoding-144p.webm) | ![](./examples/output/video_encoding-720p.webm) |
+### Thumbnail
+
+![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/demo/video_encoding-thumbnail.webp)
+
+### Summary
+
+![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/demo/video_encoding-preview.webp)
+
+### MP4 Fallback
+
+https://user-images.githubusercontent.com/64110708/234427504-ebea02df-102f-4866-b770-9759f07c732c.mp4
+
+### 144p
+
+[video_encoding-144p.webm](https://user-images.githubusercontent.com/64110708/234427562-fb4af314-73ea-43db-938e-2d303f11d027.webm)
+
+### 720p
+
+[video_encoding-720p.webm](https://user-images.githubusercontent.com/64110708/234427566-b3412283-72ee-408c-813d-0b77a8d939f7.webm)
+
 
 
 ## Multimedia Support
