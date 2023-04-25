@@ -9,6 +9,30 @@ Encode media without the hassle of wrangling ffmpeg and pillow, instead declare 
 
 [![Documentation Status](https://readthedocs.org/projects/mediaify/badge/?version=latest)](https://mediaify.readthedocs.io/en/latest/?badge=latest)
 
+# Installation
+
+[https://pypi.org/project/mediaify/](https://pypi.org/project/mediaify/)
+
+```bash
+python -m pip install mediaify
+```
+
+## Dependencies
+
+### ffmpeg
+
+Ensure ffmpeg is installed and on $PATH, try running `ffmpeg` to check
+
+- Debain/Ubuntu: `sudo apt-get install ffmpeg`
+- Other: [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
+
+### libmagic
+
+- Windows: N/A, installed automatically
+- Debian/Ubuntu: `sudo apt-get install libmagic1`
+- Homebrew: `brew install libmagic`
+- macports: `port install file`
+
 ## Simple
 
 ```python
@@ -95,30 +119,6 @@ mediaify.batch_encode_video(data, configs)
 | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/demo/video_encoding-thumbnail.webp) | ![](https://raw.githubusercontent.com/Ben-Brady/mediaify/master/examples/demo/video_encoding-preview.webp) |
 
 [Video.webm](https://user-images.githubusercontent.com/64110708/234427566-b3412283-72ee-408c-813d-0b77a8d939f7.webm)
-
-# Installation
-
-[https://pypi.org/project/mediaify/](https://pypi.org/project/mediaify/)
-
-```bash
-python -m pip install mediaify
-```
-
-## Dependencies
-
-### ffmpeg
-
-Ensure ffmpeg is installed and on $PATH, try running `ffmpeg` to check
-
-- Debain/Ubuntu: `sudo apt-get install ffmpeg`
-- Other: [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
-
-### libmagic
-
-- Windows: N/A, installed automatically
-- Debian/Ubuntu: `sudo apt-get install libmagic1`
-- Homebrew: `brew install libmagic`
-- macports: `port install file`
 
 # Roadmap
 
