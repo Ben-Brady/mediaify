@@ -6,11 +6,8 @@ with open('./examples/input/video.mp4', 'rb') as f:
 
 thumbnail = mediaify.ThumbnailEncoding(
     encoding=mediaify.WEBPImageFormat(
+        resize=mediaify.TargetResolutionResize(width=640, height=360),
         quality=80,
-        resize=mediaify.TargetResolutionResize(
-            width=192,
-            height=108,
-        )
     ),
 )
 preview = mediaify.VideoPreviewAnimationEncoding(
@@ -38,12 +35,12 @@ video_720p = mediaify.WEBMFormat(
     resize=mediaify.TargetResolutionResize(width=1280, height=720),
 )
 fallback = mediaify.MP4Format(
-    video_codec=mediaify.H264Codec(crf=21, preset="medium"),
+    video_codec=mediaify.H264Codec(crf=21, preset="slow"),
     audio_codec=mediaify.OpusCodec(bitrate=128_000),
     resize=mediaify.TargetResolutionResize(width=1280, height=720),
 )
 
-configs = [thumbnail, preview]
+configs = [thumbnail, preview, video_360p, video_720p, fallback]
 files = mediaify.batch_encode_video(data, configs)
 file_names = ["thumbnail", "preview", "144p", "360p", "720p", "fallback"]
 
