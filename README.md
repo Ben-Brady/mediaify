@@ -71,27 +71,27 @@ thumbnail = mediaify.ThumbnailEncoding(
 )
 preview = mediaify.VideoPreviewAnimationEncoding(
     encoding=mediaify.WEBPAnimationFormat(
+        resize=mediaify.TargetResolutionResize(width=640, height=360),
         quality=50,
         lossless=False,
-        resize=mediaify.TargetResolutionResize(width=640, height=360)
     ),
     framerate=5,
     frames=60,
 )
 video_360p = mediaify.WEBMFormat(
+    resize=mediaify.TargetResolutionResize(width=640, height=360),
     video_codec=mediaify.AV1Codec(crf=50, preset=7),
     audio_codec=mediaify.OpusCodec(bitrate=128_000),
-    resize=mediaify.TargetResolutionResize(width=640, height=360),
 )
 video_720p = mediaify.WEBMFormat(
+    resize=mediaify.TargetResolutionResize(width=1280, height=720),
     video_codec=mediaify.AV1Codec(crf=45, preset=6),
     audio_codec=mediaify.OpusCodec(bitrate=128_000),
-    resize=mediaify.TargetResolutionResize(width=1280, height=720),
 )
 fallback = mediaify.MP4Format(
+    resize=mediaify.TargetResolutionResize(width=1280, height=720),
     video_codec=mediaify.H264Codec(crf=21, preset="medium"),
     audio_codec=mediaify.OpusCodec(bitrate=128_000),
-    resize=mediaify.TargetResolutionResize(width=1280, height=720),
 )
 
 
