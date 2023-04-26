@@ -113,7 +113,7 @@ class VideoFile(BaseFile):
         return FORMAT.format(
             w=self.width,
             h=self.height,
-            dur=round(self.duration, 3),
+            dur=round(self.duration, 2),
             fps=round(self.framerate, 2),
             audio="audio" if self.hasAudio else "no audio",
             mime=self.mimetype,

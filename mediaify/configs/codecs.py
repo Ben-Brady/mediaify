@@ -22,7 +22,7 @@ class H264Codec:
         `medium`, `slow`, `slower`, `veryslow`, `placebo`
     """
     def __repr__(self) -> str:
-        return f"<H264 '{self.preset}' crf={self.crf}>"
+        return f"H264('{self.preset}' crf={self.crf})"
 
 
 
@@ -41,7 +41,7 @@ class VP9Codec:
     """
 
     def __repr__(self) -> str:
-        return f"VP9('{self.preset}' crf={self.crf})>"
+        return f"VP9('{self.preset}' crf={self.crf})"
 
 
 @dataclass
@@ -57,7 +57,7 @@ class AV1Codec:
     """
 
     def __repr__(self) -> str:
-        return f"AV1({self.preset} preset crf={self.crf})"
+        return f"AV1(preset:{self.preset} crf={self.crf})"
 
 
 @dataclass
