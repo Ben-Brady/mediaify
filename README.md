@@ -141,6 +141,7 @@ If you want any of these features to be developed, just flag an issue and I'll w
     - [x] Video
         - [X] WEBM
         - [X] MP4
+        - [ ] DASH Video
         - [ ] Video to Animation
         - [ ] Video to Audio
     - [x] Audio Support

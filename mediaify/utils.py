@@ -6,7 +6,10 @@ from typing import Literal
 
 def is_animated_sequence(data: bytes) -> bool:
     pil_img = PILImage.open(io.BytesIO(data))
-    return pil_img.is_animated
+    if hasattr(pil_img, 'is_animated'):
+        return pil_img.is_animated
+    else:
+        return False
 
 
 def guess_mimetype(data: bytes) -> str:

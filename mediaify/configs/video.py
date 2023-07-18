@@ -5,7 +5,7 @@ from . import (
     ThumbnailEncoding,
 )
 from . import H264Codec, OpusCodec, VP9Codec, AV1Codec
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Union
 
 
@@ -19,9 +19,9 @@ class WEBMFormat(VideoFormat):
     The framerate to encode the video at, None to use the original framerate.
     Defaults to None.
     """
-    video_codec: "VP9Codec|AV1Codec" = VP9Codec()
+    video_codec: "VP9Codec|AV1Codec" = field(default_factory=VP9Codec)
     "The video codec to use, defaults to VP9EncodeConfig"
-    audio_codec: "OpusCodec|None" = OpusCodec()
+    audio_codec: "OpusCodec|None" = field(default_factory=OpusCodec)
     "The audio codec to use, defaults to OpusEncodeConfig"
 
     def __repr__(self) -> str:
@@ -48,9 +48,9 @@ class MP4Format(VideoFormat):
     The framerate to encode the video at, None to use the original framerate.
     Defaults to None.
     """
-    video_codec: "H264Codec|AV1Codec" = H264Codec()
+    video_codec: "H264Codec|AV1Codec" = field(default_factory=H264Codec)
     "The video codec to use, defaults to H264EncodeConfig"
-    audio_codec: "OpusCodec|None" = OpusCodec()
+    audio_codec: "OpusCodec|None" = field(default_factory=OpusCodec)
     "The audio codec to use, defaults to OpusEncodeConfig"
 
     def __repr__(self) -> str:
