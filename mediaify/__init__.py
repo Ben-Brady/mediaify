@@ -47,9 +47,11 @@ from .video import (
     batch_encode_video,
     VideoFile,
 )
+from .files import MediaFile
 
 __all__ = [
     "guess_type",
+    "MediaFile",
 
     "encode_audio",
     "batch_encode_audio",
