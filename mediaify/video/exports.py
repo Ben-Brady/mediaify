@@ -31,7 +31,7 @@ def encode_video(
 @overload
 def encode_video(
         data: bytes,
-        config: "VideoFormat|UnencodedEncoding|None",
+        config: "VideoFormat|UnencodedEncoding|None" = None,
         ) -> "VideoFile":
     ...
 

@@ -15,7 +15,7 @@ def encode_animation(
 @overload
 def encode_animation(
         data: bytes,
-        config: "AnimationFormat|UnencodedEncoding|None",
+        config: "AnimationFormat|UnencodedEncoding|None" = None,
         ) -> "AnimationFile":
     ...
 
