@@ -24,7 +24,6 @@ def encode_generic_video(
         ) -> VideoFile:
     try:
         ffmpeg = FFmpeg().option("i", pathname)
-        add_progress_bar(ffmpeg, info.frame_count, encoding_name)
 
         if framerate is not None:
             ffmpeg = change_framerate(ffmpeg, framerate)
@@ -51,31 +50,6 @@ def encode_generic_video(
         duration=output_info.duration,
         hasAudio=output_info.hasAudio,
     )
-
-
-def add_progress_bar(
-        ffmpeg: FFmpeg,
-        frames: int,
-        encoding_name: "str",
-        ):
-    progress_bar = tqdm(
-        total=frames,
-        desc=encoding_name,
-        unit="frame"
-    )
-
-    last_frame = 0
-    
-    @ffmpeg.on("progress")
-    def on_progress(progress: Progress) -> None:
-        nonlocal last_frame
-        frames_processed = progress.frame - last_frame
-        progress_bar.update(frames_processed)
-        last_frame = progress.frame
-
-    @ffmpeg.on("completed")
-    def on_completed() -> None:
-        progress_bar.close()
 
 
 def resize_video(

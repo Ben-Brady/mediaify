@@ -4,7 +4,7 @@ from ..configs import (
 from ..files import ImageFile
 from ..image import encode_image
 from .info import VideoInfo
-from .process import add_progress_bar, resize_video
+from .process import resize_video
 from ffmpeg import FFmpeg, FFmpegError  # type: ignore
 
 
@@ -24,7 +24,7 @@ def encode_as_thumbnail(
         .option("vframes", 1)
         .option("ss", offset)
     )
-    add_progress_bar(ffmpeg, 1, f"Thumbnail({config.encoding})")
+
     if config.encoding and config.encoding.resize:
         ffmpeg = resize_video(ffmpeg, info, config.encoding.resize)
 

@@ -4,7 +4,7 @@ from ..configs import (
 from ..files import AnimationFile
 from ..animation import encode_animation
 from .info import VideoInfo
-from .process import add_progress_bar, resize_video
+from .process import resize_video
 from tempfile import NamedTemporaryFile
 from ffmpeg import FFmpeg, FFmpegError  # type: ignore
 
@@ -30,7 +30,6 @@ def encode_as_animation_summary(
         .option("r", config.framerate)
         .option("vf", f"setpts=PTS/{timescale}")
     )
-    add_progress_bar(ffmpeg, frame_count, f"VideoSummary({config.encoding})")
     if config.encoding and config.encoding.resize:
         ffmpeg = resize_video(ffmpeg, info, config.encoding.resize)
 
