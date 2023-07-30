@@ -48,9 +48,13 @@ from .video import (
     VideoFile,
 )
 from .files import MediaFile
+from .file import encode_file
 
 __all__ = [
     "guess_type",
+    "MediaFile",
+
+    "encode_file",
     "MediaFile",
 
     "encode_audio",
