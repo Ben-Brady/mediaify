@@ -1,9 +1,39 @@
 from ..files import VideoFile, AnimationFile, ImageFile
-from ..configs import VideoEncodingType
+from ..configs import (
+    VideoEncodingType,
+    ThumbnailEncoding,
+    VideoPreviewAnimationEncoding,
+    UnencodedEncoding,
+    VideoFormat
+)
 from .info import get_video_info
 from .encode import encode_video_with_config
 from tempfile import NamedTemporaryFile
-from typing import List
+from typing import List, overload
+
+
+@overload
+def encode_video(
+        data: bytes,
+        config: "ThumbnailEncoding",
+        ) -> "ImageFile":
+    ...
+
+
+@overload
+def encode_video(
+        data: bytes,
+        config: "VideoPreviewAnimationEncoding",
+        ) -> "AnimationFile":
+    ...
+
+
+@overload
+def encode_video(
+        data: bytes,
+        config: "VideoFormat|UnencodedEncoding|None",
+        ) -> "VideoFile":
+    ...
 
 
 def encode_video(

@@ -1,7 +1,7 @@
 from ..files import ImageFile
-from ..configs import UnencodedEncoding, ImageEncodingType
+from ..configs import ImageEncodingType
 from .encode import encode_with_config, open_as_pillow
-from typing import List
+from typing import List, overload
 
 
 def encode_image(

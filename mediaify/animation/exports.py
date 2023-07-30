@@ -1,7 +1,23 @@
 from ..files import AnimationFile, ImageFile
-from ..configs import AnimationEncodingType
+from ..configs import AnimationEncodingType, ThumbnailEncoding, AnimationFormat, UnencodedEncoding
 from .encode import open_as_pillow, encode_with_config, encode_as_original
-from typing import List
+from typing import List, overload
+
+
+@overload
+def encode_animation(
+        data: bytes,
+        config: "ThumbnailEncoding",
+        ) -> "ImageFile":
+    ...
+
+
+@overload
+def encode_animation(
+        data: bytes,
+        config: "AnimationFormat|UnencodedEncoding|None",
+        ) -> "AnimationFile":
+    ...
 
 
 def encode_animation(

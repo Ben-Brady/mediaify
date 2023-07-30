@@ -4,7 +4,7 @@ requires = ["flit_core >=3.8.0,<4"]
 
 [project]
 name = "mediaify"
-version = "3.0.3"
+version = "3.0.4"
 description = "Media encoding made simple"
 license = {file = "LICENSE"}
 readme = "README.md"

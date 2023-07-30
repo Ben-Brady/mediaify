@@ -27,17 +27,20 @@ from .image import (
     JPEGFormat,
     WEBPImageFormat,
     ImageEncodingType,
+    ImageFormat,
 )
 from .animation import (
     GIFFormat,
     WEBPAnimationFormat,
     AnimationEncodingType,
+    AnimationFormat,
 )
 from .video import (
     MP4Format,
     WEBMFormat,
     VideoPreviewAnimationEncoding,
     VideoEncodingType,
+    VideoFormat,
 )
 
 __all__ = [
@@ -72,4 +75,8 @@ __all__ = [
     "AnimationEncodingType",
     "ImageEncodingType",
     "VideoEncodingType",
+
+    "ImageFormat",
+    "AnimationFormat",
+    "VideoFormat",
 ]
