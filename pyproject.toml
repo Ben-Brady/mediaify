@@ -3,11 +3,11 @@ build-backend = "flit_core.buildapi"
 requires = ["flit_core >=3.8.0,<4"]
 
 [tool.flit.sdist]
-include = ["py.typed/"]
+include = ["py.typed"]
 
 [project]
 name = "mediaify"
-version = "3.0.7"
+version = "3.0.8"
 description = "Media encoding made simple"
 license = {file = "LICENSE"}
 readme = "README.md"
@@ -33,7 +33,6 @@ classifiers = [
 ]
 requires-python = ">=3.9"
 dependencies = [
-    "tqdm~=4.65.0",
     "python-ffmpeg~=2.0.4",
     "MediaInfo~=0.0.9",
     "pillow~=9.5.0",
