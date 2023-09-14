@@ -10,7 +10,6 @@ from .info import VideoInfo, get_video_info
 from tempfile import NamedTemporaryFile
 from typing import Callable
 from ffmpeg import FFmpeg, FFmpegError, Progress  # type: ignore
-from tqdm import tqdm  # type: ignore
 
 
 def encode_generic_video(
