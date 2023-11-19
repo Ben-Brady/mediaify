@@ -4,42 +4,42 @@ from ..configs import (
     ThumbnailEncoding,
     VideoPreviewAnimationEncoding,
     UnencodedEncoding,
-    VideoFormat
+    VideoFormat,
 )
 from .info import get_video_info
 from .encode import encode_video_with_config
 from tempfile import NamedTemporaryFile
-from typing import List, overload
+from typing import List, overload, Callable
 
 
 @overload
 def encode_video(
-        data: bytes,
-        config: "ThumbnailEncoding",
-        ) -> "ImageFile":
+    data: bytes,
+    config: "ThumbnailEncoding",
+) -> "ImageFile":
     ...
 
 
 @overload
 def encode_video(
-        data: bytes,
-        config: "VideoPreviewAnimationEncoding",
-        ) -> "AnimationFile":
+    data: bytes,
+    config: "VideoPreviewAnimationEncoding",
+) -> "AnimationFile":
     ...
 
 
 @overload
 def encode_video(
-        data: bytes,
-        config: "VideoFormat|UnencodedEncoding|None" = None,
-        ) -> "VideoFile":
+    data: bytes,
+    config: "VideoFormat|UnencodedEncoding|None" = None,
+) -> "VideoFile":
     ...
 
 
 def encode_video(
-        data: bytes,
-        config: "VideoEncodingType|None" = None,
-        ) -> "VideoFile|AnimationFile|ImageFile":
+    data: bytes,
+    config: "VideoEncodingType|None" = None,
+) -> "VideoFile|AnimationFile|ImageFile":
     """Encodes a video using a video config
 
     Returns:
@@ -55,9 +55,9 @@ def encode_video(
 
 
 def batch_encode_video(
-        data: bytes,
-        configs: "List[VideoEncodingType]",
-        ) -> "List[VideoFile|AnimationFile|ImageFile]":
+    data: bytes,
+    configs: "List[VideoEncodingType]",
+) -> "List[VideoFile|AnimationFile|ImageFile]":
     """
     Encodes a video using a list of video configs,
     more efficent than calling `encode_video` multiple times
@@ -72,6 +72,5 @@ def batch_encode_video(
         f.write(data)
         info = get_video_info(f.name)
         return [
-            encode_video_with_config(data, f.name, info, config)
-            for config in configs
+            encode_video_with_config(data, f.name, info, config) for config in configs
         ]

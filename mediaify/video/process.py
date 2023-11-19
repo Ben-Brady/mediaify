@@ -8,7 +8,7 @@ from ..files import VideoFile
 from ..resize import calculate_downscale
 from .info import VideoInfo, get_video_info
 from tempfile import NamedTemporaryFile
-from typing import Callable
+from typing import Callable, Any
 from ffmpeg import FFmpeg, FFmpegError, Progress  # type: ignore
 
 
@@ -16,10 +16,9 @@ def encode_generic_video(
         pathname: str,
         info: VideoInfo,
         *,
-        encoding_name: "str" = "Unknown",
         resize_config: "ResizeConfig|None" = None,
         framerate: "float|None" = None,
-        process_func: "Callable[[FFmpeg], FFmpeg]|None" = None,
+        options: "dict[str, Any]|None" = None,
         ) -> VideoFile:
     try:
         ffmpeg = FFmpeg().option("i", pathname)
@@ -28,8 +27,10 @@ def encode_generic_video(
             ffmpeg = change_framerate(ffmpeg, framerate)
         if resize_config is not None:
             ffmpeg = resize_video(ffmpeg, info, resize_config)
-        if process_func is not None:
-            ffmpeg = process_func(ffmpeg)
+
+        if options is not None:
+            for key, value in options.items():
+                ffmpeg.option(key, value)
 
         with NamedTemporaryFile() as f:
             ffmpeg.option("y")
