@@ -5,6 +5,7 @@ from magic import Magic
 import shutil
 import numexpr  # type: ignore
 from MediaInfo import MediaInfo  # type: ignore
+from typing import cast
 
 
 @dataclass
@@ -20,18 +21,18 @@ class VideoInfo:
 
 
 def get_video_info(filepath: str) -> VideoInfo:
-    info: dict[str, Any] = MediaInfo(filename=filepath).getInfo()
+    info = cast(dict[str, Any], MediaInfo(filename=filepath).getInfo())
 
-    width = int(info['videoWidth'])
-    height = int(info['videoHeight'])
-    framerate = numexpr.evaluate(info['videoFrameRate'])[()]
-    frame_count = int(info['videoFrameCount'])
-    if info['videoDuration'] is not None:
-        duration = float(info['videoDuration'])
+    width = int(info["videoWidth"])
+    height = int(info["videoHeight"])
+    framerate = cast(float, numexpr.evaluate(info["videoFrameRate"])[()])
+    frame_count = int(info["videoFrameCount"])
+    if info["videoDuration"] is not None:
+        duration = float(info["videoDuration"])
     else:
         duration = framerate * frame_count
 
-    hasAudio = info["haveAudio"] == 1
+    hasAudio = info.get("haveAudio", 0) == 1
 
     magic = Magic(mime=True)
     mimetype = magic.from_file(filepath)
