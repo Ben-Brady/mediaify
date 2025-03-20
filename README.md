@@ -1,5 +1,6 @@
 # Mediaify
 
+![mediaify](https://github.com/user-attachments/assets/95e1aff4-3687-4aa4-b92b-187056f2ceac)
 
 Media encoding made simple!
 
