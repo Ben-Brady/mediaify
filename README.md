@@ -146,4 +146,4 @@ If you want any of these features to be developed, just flag an issue and I'll w
     - [x] Audio Support
 - Better Resizing
     - [ ] Blackbars
-    - [ ] Cropping
+    - [x] Cropping
