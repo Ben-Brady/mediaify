@@ -24,3 +24,13 @@ class TargetResolutionResize(ResizeConfig):
 
     def __repr__(self) -> str:
         return f"TargetRes({self.width}x{self.height})"
+
+@dataclass
+class FixedResolutionResize(ResizeConfig):
+    width: "int"
+    height: "int"
+    method: "Literal['stretch', 'cover']" = "stretch"
+    "How to change the video aspect ratio, defaults to stretch"
+
+    def __repr__(self) -> str:
+        return f"FixedRes({self.width}x{self.height}:{self.method})"

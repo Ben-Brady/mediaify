@@ -1,8 +1,8 @@
-from .configs import ResizeConfig, MaxResolutionResize, TargetResolutionResize
-from typing import Tuple
+from .configs import MaxResolutionResize, TargetResolutionResize, FixedResolutionResize
+from typing import Tuple, Union
 
 
-def calculate_downscale(size: "Tuple[int, int]", config: ResizeConfig) -> "Tuple[int, int]":
+def calculate_downscale(size: "Tuple[int, int]", config: Union[MaxResolutionResize, TargetResolutionResize, FixedResolutionResize]) -> "Tuple[int, int]":
     width, height = size
 
     if isinstance(config, MaxResolutionResize):

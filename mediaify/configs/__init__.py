@@ -4,6 +4,7 @@ from .base import (
 from .resize import (
     MaxResolutionResize,
     TargetResolutionResize,
+    FixedResolutionResize,
 )
 from .shared import (
     ThumbnailEncoding,
@@ -46,6 +47,7 @@ from .video import (
 __all__ = [
     "MaxResolutionResize",
     "TargetResolutionResize",
+    "FixedResolutionResize",
 
     "MP3Format",
     "OpusFormat",

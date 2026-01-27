@@ -3,6 +3,7 @@ from . import configs
 from .configs import (
     MaxResolutionResize,
     TargetResolutionResize,
+    FixedResolutionResize,
     FLACFormat,
     WAVFormat,
     MP3Format,
@@ -77,6 +78,7 @@ __all__ = [
 
     "MaxResolutionResize",
     "TargetResolutionResize",
+    "FixedResolutionResize",
 
     "FLACFormat",
     "WAVFormat",

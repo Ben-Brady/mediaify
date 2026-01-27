@@ -5,9 +5,12 @@ from ..configs import (
     PNGFormat,
     WEBPImageFormat,
     ResizeConfig,
+    MaxResolutionResize,
+    TargetResolutionResize,
+    FixedResolutionResize
 )
 from ..resize import calculate_downscale
-from PIL import Image as PILImage
+from PIL import Image as PILImage, ImageOps
 import io
 
 
@@ -77,10 +80,12 @@ def encode_generic_image(
         save_function: "Callable[[PILImage.Image, io.BytesIO], None]",
         mimetype: str,
         ) -> ImageFile:
-    if resize is not None:
+    if isinstance(resize, FixedResolutionResize) and resize.method == "cover":
+        pillow = ImageOps.fit(pillow, (resize.width, resize.height))
+    elif isinstance(resize, (FixedResolutionResize, MaxResolutionResize, TargetResolutionResize)):
         im_size = (pillow.width, pillow.height)
         size = calculate_downscale(im_size, resize)
-        pillow = pillow.resize(size, PILImage.LANCZOS)
+        pillow = pillow.resize(size, PILImage.Resampling.LANCZOS)
 
     buf = io.BytesIO()
     save_function(pillow, buf)
