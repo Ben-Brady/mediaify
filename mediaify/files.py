@@ -18,7 +18,7 @@ class BaseFile:
     def ext(self) -> str:
         """
         The file extention for this file including the '.'.
-        If the mimetype is unknown, '.bin' is returned
+        If the mimetype is unknown '.bin' is used
         """
 
         ext = guess_extension(self.mimetype)
